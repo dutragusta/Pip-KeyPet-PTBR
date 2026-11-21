@@ -1,77 +1,68 @@
-# Pip-KeyPet — um bichinho de estimação no chaveiro
+# Pip-KeyPet PT-BR 🇧🇷
 
-Pip é um bichinho virtual que vive em um chaveiro redondo com tela. Ele olha para você, fica feliz, emburrado ou com sono, pede para passear e comer, e reage ao que acontece ao redor.
+Interface web do **Pip-KeyPet** traduzida para português brasileiro (PT-BR), publicada pelo GitHub Pages.
 
-Além disso, ele exibe notificações do iPhone, controla músicas e pode funcionar como crachá, cartão de visita com QR Code, controle para apresentações, medidor de ruído e plataforma para minijogos.
+O Pip é um bichinho virtual em um chaveiro com tela, baseado na placa **Waveshare ESP32-S3-Touch-AMOLED-1.75C**. A interface permite conectar o dispositivo, configurar recursos e atualizar o firmware pelo navegador.
 
-## O que você precisa
+## Acessar a interface
 
-- **Chaveiro Waveshare ESP32-S3-Touch-AMOLED-1.75C** (disponível na AliExpress, Amazon e na loja da Waveshare).
-- **Cabo USB-C com transferência de dados** (não pode ser um cabo exclusivo para carregamento).
-- **Computador** com Windows, macOS ou Linux e navegador **Google Chrome** ou **Microsoft Edge**.
+🌐 **[Abrir o painel Pip-KeyPet PT-BR](https://dutragusta.github.io/Pip-KeyPet-PTBR/)**
 
-## Como instalar o firmware no seu Pip
+A interface foi adaptada para português brasileiro, preservando o layout e os identificadores técnicos necessários ao funcionamento do painel.
 
-**Método mais simples:** abra https://novikovvisuals.github.io/Pip-KeyPet/ no Chrome ou Edge, conecte o chaveiro ao computador pelo cabo USB e clique em **“Conectar via cabo”**. Depois, acesse a aba **“Gravar / atualizar”** e clique em **“Gravar”**. Não é necessário baixar nenhum arquivo.
+## Requisitos
 
-### Instalação sem internet
+- Chaveiro compatível com **Waveshare ESP32-S3-Touch-AMOLED-1.75C**.
+- Cabo USB-C com suporte a transferência de dados.
+- Computador com **Google Chrome** ou **Microsoft Edge** atualizado.
+- Bluetooth habilitado quando utilizar a conexão sem fio.
 
-1. **Baixe o projeto.** Nesta página do GitHub, clique no botão verde **Code → Download ZIP** e extraia o arquivo baixado.
-2. **Abra o painel.** Na pasta extraída, execute o arquivo correspondente ao seu sistema:
-   - Windows: **`Pip-Windows.bat`**
-   - macOS: **`Pip-Mac.command`** (se o Mac impedir a abertura, clique com o botão direito no arquivo e escolha “Abrir”; confirme novamente em “Abrir”).
-   - Linux: **`Pip-Linux.sh`**
+> O acesso às funções USB e Bluetooth depende do suporte do navegador e das permissões concedidas pelo usuário. Safari e Firefox podem não oferecer as APIs necessárias.
 
-   O painel do Pip será aberto no navegador.
-3. **Grave o firmware.** Conecte o chaveiro ao computador, abra a aba **“Gravar / atualizar”**, clique em **“Gravar”** e selecione **USB JTAG/serial** na lista. Depois de aproximadamente um minuto, o Pip deverá iniciar.
+## Como usar
 
-Na aba **“Configurações”**, você pode definir o nome exibido no crachá, adicionar seus links para o QR Code, escolher quando o Pip entrará em repouso e ativar ou desativar os recursos disponíveis. As configurações ficam salvas no próprio chaveiro.
+1. Abra o [painel PT-BR](https://dutragusta.github.io/Pip-KeyPet-PTBR/) no Chrome ou Edge.
+2. Conecte o chaveiro ao computador usando um cabo USB-C de dados.
+3. Clique em **Conectar via cabo** e autorize o acesso ao dispositivo.
+4. Acesse **Configurações** para ajustar as opções disponíveis.
+5. Para atualizar o dispositivo, abra **Gravar / atualizar**, clique em **Gravar** e siga as instruções exibidas na tela.
 
-### Conectar ao iPhone
+A interface também apresenta opções de conexão Bluetooth, configurações do crachá, links para QR Code, economia de energia, notificações e ferramentas de depuração.
 
-No iPhone, acesse **Ajustes → Bluetooth → Pip** e confirme o código usando o botão superior do chaveiro. Quando o iPhone solicitar, autorize a exibição de notificações.
+## Recursos da interface
 
-## Solução de problemas
+- Interface traduzida para português brasileiro.
+- Conexão com o chaveiro por USB e Bluetooth, conforme suporte do navegador e do dispositivo.
+- Configuração do crachá e dos links de QR Code.
+- Ajustes de tela, brilho, tema e economia de energia.
+- Preferências para notificações do iPhone.
+- Gravação e atualização do firmware pelo navegador.
+- Acesso à interface de depuração do projeto original.
 
-- **O chaveiro não aparece na lista:** experimente outro cabo USB ou outra porta do computador. No Linux, execute uma vez `sudo usermod -aG dialout $USER` e entre novamente na sua sessão.
-- **O processo de gravação não começa:** mantenha pressionado o botão inferior do chaveiro, pressione rapidamente o botão superior e, em seguida, solte o botão inferior. O chaveiro entrará no modo de gravação. Depois, clique em **“Gravar”** novamente.
-- **A página informa que o navegador não é compatível:** abra o painel no Chrome ou Edge. Safari e Firefox não oferecem suporte aos recursos USB utilizados pelo projeto.
-- **A bateria descarrega rapidamente:** nas configurações, defina o tempo para entrar em repouso como **15 a 30 segundos**. A tela e a animação do rosto são responsáveis por grande parte do consumo de energia.
+## Observações importantes
 
-## O que o Pip pode fazer
+- Este repositório contém a **interface web traduzida**, não uma cópia completa do firmware e de todos os arquivos do projeto original.
+- O painel carrega o arquivo de firmware publicado pelo projeto original: [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet).
+- A página de depuração ainda utiliza a versão original, que pode estar em outro idioma.
+- Para obter instruções completas de compilação, arquivos do firmware e demais componentes, consulte o [repositório original](https://github.com/NovikovVisuals/Pip-KeyPet).
+- A gravação de firmware altera o software do dispositivo. Não desconecte o chaveiro durante o processo.
 
-- **Personalidade:** cerca de 45 emoções. O humor muda de acordo com alimentação, sono, brincadeiras, atenção, passeios, horário do dia e acontecimentos. Você pode acariciá-lo, sacudi-lo, virá-lo com a tela para baixo, soprar nele e apresentá-lo a outras pessoas usando o botão inferior.
-- **Aplicativos e ferramentas:** relógio, cuidados com o Pip, Quick QR, medidor de ruído, crachá, temporizador, cronômetro, lanterna, personalização de estilo, Bluetooth, notificações, música, câmera (botão de disparo para iPhone) e controle de apresentações (avançar slides, ponteiro, rolagem e arrastar). Também inclui jogos: bolinha, jogo da velha infinito, bola 8, cara ou coroa, dado e labirinto.
-- **Economia de energia:** entra em repouso automaticamente e pode despertar com um toque, pelo botão, ao ser segurado na mão ou quando recebe uma notificação.
-- **Privacidade:** as notificações ficam ocultas por padrão até serem abertas. Códigos, senhas e dados bancários não são armazenados.
+## Desenvolvimento e publicação
 
-## Para desenvolvedores
+O site é publicado automaticamente pelo GitHub Actions sempre que há alterações na branch `main`.
 
-O diretório `ui/` contém uma interface portátil em C com LVGL 9.5, compartilhada por três compilações: firmware (ESP-IDF 5.5), simulador no navegador e gravador de console com verificações. Consulte [CLAUDE.md](CLAUDE.md) para obter mais detalhes.
+- Arquivo principal da interface: [`index.html`](index.html)
+- Workflow do GitHub Pages: [`.github/workflows/pages.yml`](.github/workflows/pages.yml)
+- Site publicado: [dutragusta.github.io/Pip-KeyPet-PTBR](https://dutragusta.github.io/Pip-KeyPet-PTBR/)
 
-```bash
-git submodule update --init                                     # LVGL
-cmake -S sim -B build -G Ninja && cmake --build build && python3 sim/check.py   # simulador e testes
-emcmake cmake -S sim -B build-web -G Ninja && cmake --build build-web && python3 sim/serve.py   # simulador web
-. ~/esp/esp-idf/export.sh && firmware/flash.sh                  # compilação própria para a placa, com registro de log
-tools/release.sh                                                # firmware para o painel: docs/firmware/firmware.js
-```
+## Créditos e licença
 
-O painel é composto por `docs/index.html` (configurações e gravação do firmware, com Web Serial e Web Bluetooth diretamente no navegador) e `docs/debug.html` (árvore de emoções, histórico, demonstração de emoções, controles de regras e modo de desenvolvedor).
+Este projeto é uma tradução/adaptação da interface do [Pip-KeyPet, de NovikovVisuals](https://github.com/NovikovVisuals/Pip-KeyPet).
 
-## Licença
-
-MIT. Consulte o arquivo [LICENSE](LICENSE).
-
-## Créditos
-
-- [LVGL](https://lvgl.io) (MIT)
-- [esptool-js](https://github.com/espressif/esptool-js) (Apache-2.0)
-- Fontes JetBrains Mono e IBM Plex Mono (SIL OFL)
-- Ícones [Font Awesome Free](https://fontawesome.com) (SIL OFL / CC BY 4.0)
+O projeto original informa ser distribuído sob a licença **MIT**. Consulte o repositório original e seus avisos de licença para os termos aplicáveis ao código e aos componentes de terceiros. Esta adaptação não reivindica a autoria do projeto original.
 
 ---
 
-**Projeto original:** [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet)
-
-Esta tradução do README foi preparada em português brasileiro. Os nomes de arquivos, comandos, APIs, protocolos e identificadores técnicos foram mantidos no idioma original para preservar a compatibilidade com o projeto.
+**Tradução:** português brasileiro (PT-BR)  
+**Projeto original:** [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet)  
+**Versão adaptada:** [dutragusta/Pip-KeyPet-PTBR](https://github.com/dutragusta/Pip-KeyPet-PTBR)
