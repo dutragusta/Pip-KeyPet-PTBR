@@ -26,6 +26,8 @@ static pip_personality_t s_pet;
 static bool s_initialized;
 static bool s_storage_ready;
 static time_t s_last_tick;
+static int s_reaction_mood = -1;
+static time_t s_reaction_until;
 static nvs_handle_t s_nvs;
 static StaticSemaphore_t s_lock_storage;
 static SemaphoreHandle_t s_lock;
@@ -120,13 +122,14 @@ void pip_muse_bridge_on_mode(muse_mode_t mode)
     pip_personality_event_t event;
     bool has_event = true;
     switch (mode) {
-    case MUSE_MODE_LISTENING: event = PIP_PERSONALITY_RECORD; break;
+    case MUSE_MODE_LISTENING: has_event = false; break;
     case MUSE_MODE_SPEAKING:  event = PIP_PERSONALITY_SEEN; break;
     case MUSE_MODE_ERROR:     event = PIP_PERSONALITY_FRIGHT; break;
     default: has_event = false; break;
     }
     if (has_event) {
-        (void)pip_personality_event(&s_pet, event, (int64_t)now);
+        int reaction = pip_personality_event(&s_pet, event, (int64_t)now);
+        if (reaction >= 0) { s_reaction_mood = reaction; s_reaction_until = now + 3; }
         s_last_tick = now;
         save_locked();
     }
@@ -152,7 +155,8 @@ void pip_muse_bridge_on_lift(void)
     xSemaphoreTake(s_lock, portMAX_DELAY);
     time_t now = time(NULL);
     if (ensure_pet_locked(now)) {
-        (void)pip_personality_event(&s_pet, PIP_PERSONALITY_WAKE, (int64_t)now);
+        int reaction = pip_personality_event(&s_pet, PIP_PERSONALITY_WAKE, (int64_t)now);
+        if (reaction >= 0) { s_reaction_mood = reaction; s_reaction_until = now + 3; }
         s_last_tick = now;
         save_locked();
     }
@@ -165,6 +169,7 @@ bool pip_muse_bridge_status(pip_personality_status_t *out)
     xSemaphoreTake(s_lock, portMAX_DELAY);
     tick_locked(time(NULL));
     bool ok = s_initialized && pip_personality_get_status(&s_pet, out);
+    if (ok) out->reaction_mood = s_reaction_until > time(NULL) ? s_reaction_mood : -1;
     xSemaphoreGive(s_lock);
     return ok;
 }
