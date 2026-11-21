@@ -29,6 +29,12 @@ int main(void)
     assert(status.food <= 1.0f && status.fun <= 1.0f);
     assert(status.mood >= 0 && status.mood < PIP_MOOD_COUNT);
 
+    /* Picking up a sleeping Pip wakes him with the upstream surprise reaction. */
+    pip.state.asleep = true;
+    reaction = pip_personality_event(&pip, PIP_PERSONALITY_WAKE, start + 3);
+    assert(reaction == PIP_SURPRISED);
+    assert(!pip.state.asleep);
+
     uint8_t snapshot[sizeof(pet_t)];
     memset(snapshot, 0, sizeof(snapshot));
     assert(pip_personality_state_size() == sizeof(pet_t));
