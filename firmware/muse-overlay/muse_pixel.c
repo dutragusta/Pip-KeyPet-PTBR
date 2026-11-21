@@ -1,5 +1,6 @@
 #include "muse_pixel.h"
 #include "face.h"
+#include "pip_muse_bridge.h"
 #include "esp_attr.h"
 #include <math.h>
 #include <string.h>
@@ -49,7 +50,16 @@ void muse_pixel_set_size(int px) {
 void muse_pixel_render(const muse_pose_t *pose) {
     if (!pose) return;
     if (!s_initialized) init_face();
-    const float t = pose->t, happy = clamp01(pose->happy);
+    const float t = pose->t;
+    pip_personality_status_t pet_status;
+    float pet_happy = 0.0f, pet_tired = 0.0f;
+    bool pet_asleep = false;
+    if (pip_muse_bridge_status(&pet_status)) {
+        pet_happy = clamp01((pet_status.valence - 0.10f) * 0.70f);
+        pet_tired = clamp01((0.45f - pet_status.energy) * 0.90f);
+        pet_asleep = pet_status.asleep;
+    }
+    const float happy = fmaxf(clamp01(pose->happy), pet_happy);
     float blink = 0.0f;
     if (t >= s_next_blink) {
         s_blink_start = t;
@@ -57,7 +67,8 @@ void muse_pixel_render(const muse_pose_t *pose) {
     }
     float bp = (t - s_blink_start) / 0.17f;
     if (bp >= 0.0f && bp <= 1.0f) blink = sinf(bp * 3.14159265f);
-    float w = 35.0f, h = 43.0f, lid = blink * 0.96f, tilt = 0.0f;
+    float w = 35.0f, h = 43.0f, lid = fmaxf(blink * 0.96f, pet_tired * 0.55f), tilt = 0.0f;
+    if (pet_asleep && pose->mode == MUSE_MODE_IDLE) lid = 1.0f;
     float smile = happy * 0.35f, pw = 0.34f, ph = 0.39f;
     float lx = 0.10f * sinf(t * 0.8f), ly = 0.06f * sinf(t * 0.55f);
     float heart = happy > 0.72f ? (happy - 0.72f) / 0.28f : 0.0f;

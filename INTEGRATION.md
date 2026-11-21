@@ -23,6 +23,7 @@ O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalid
 - mudança para `MUSE_MODE_SPEAKING`: evento de interação/companhia;
 - mudança para `MUSE_MODE_ERROR`: evento de susto;
 - toque no rosto do avatar: evento de carinho;
+- humor, valência, energia e sono do Pip influenciam o sorriso, o cansaço e as pálpebras do avatar;
 - consulta do estado visual: atualiza as necessidades no máximo uma vez por minuto.
 
 O relógio do Tamagotchi só começa quando o relógio de parede está sincronizado e apresenta um timestamp plausível. Isso evita que o bichinho envelheça usando apenas o tempo desde que o ESP32 foi ligado. O fuso inicial está definido como UTC-3 (São Paulo).

@@ -23,6 +23,7 @@ jobs:
           grep -q '#define MUSE_PX_W 128' vendor/muse-gadget-sdk/esp32/components/muse/muse_pixel.h
           test -f vendor/muse-gadget-sdk/esp32/components/muse/avatar/muse_pixel.c
           test -f firmware/muse-overlay/pip_muse_bridge.c
+          grep -q 'pip_muse_bridge_status' firmware/muse-overlay/muse_pixel.c
           grep -q 'pip_personality' vendor/muse-gadget-sdk/esp32/main/CMakeLists.txt
           grep -q 'pip_muse_bridge_on_mode' vendor/muse-gadget-sdk/esp32/components/muse/muse_state.c
           grep -q 'pip_muse_bridge_on_touch' vendor/muse-gadget-sdk/esp32/components/muse/muse_ui.c
