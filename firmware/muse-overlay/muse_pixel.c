@@ -38,7 +38,7 @@ static void apply_pip_mood(face_t *face, int mood, float t)
     case PIP_NEUTRAL: break;
     case PIP_HAPPY: case PIP_CHEEKY: case PIP_CONTENT: case PIP_COMFY:
         a->smile = b->smile = 0.52f; face->blush = 0.20f; break;
-    case PIP_SAD: case PIP_DESPONDENT: case PIP_GLOOMY: case PIP_LONELY:
+    case PIP_SAD: case PIP_DESPONDENT: case PIP_GLOOMY: case PIP_LONELY: case PIP_HURT:
         a->lid = b->lid = 0.22f; a->look_y = b->look_y = 0.20f;
         a->wet = b->wet = mood == PIP_DESPONDENT || mood == PIP_LONELY ? 0.75f : 0.35f; break;
     case PIP_ANGRY: case PIP_ANNOYED: case PIP_FURIOUS: case PIP_RAGE:
@@ -75,6 +75,17 @@ static void apply_pip_mood(face_t *face, int mood, float t)
     case PIP_NAUSEOUS: case PIP_SICK:
         a->lid = b->lid = 0.45f; a->tilt = -0.16f; b->tilt = 0.16f;
         a->wet = b->wet = 0.28f; break;
+    case PIP_AFRAID: case PIP_NERVOUS:
+        a->lid = b->lid = 0.28f; a->look_x = b->look_x = -0.20f;
+        a->wet = b->wet = 0.22f; break;
+    case PIP_DISGUSTED:
+        a->lid = b->lid = 0.40f; a->tilt = -0.24f; b->tilt = 0.24f;
+        a->look_x = b->look_x = 0.20f; break;
+    case PIP_YES:
+        a->smile = b->smile = 0.42f; a->lid = b->lid = 0.12f; break;
+    case PIP_NO:
+        a->lid = b->lid = 0.26f; a->tilt = 0.18f; b->tilt = -0.18f;
+        a->look_x = b->look_x = -0.18f; break;
     case PIP_SHY:
         a->look_x = b->look_x = -0.28f; a->lid = b->lid = 0.18f;
         face->blush = 0.82f; break;
