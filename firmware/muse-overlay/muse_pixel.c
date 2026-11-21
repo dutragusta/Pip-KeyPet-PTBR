@@ -194,6 +194,35 @@ void muse_pixel_render(const muse_pose_t *pose) {
         .lid=lid,.tilt=tilt,.smile=smile,.look_x=lx,.look_y=ly,.pw=pw,.ph=ph,
         .heart=heart,.wobble=0.22f,.wob_t=t,.glint=0.45f};
     apply_pip_mood(&s_face, pet_mood, t);
+    /* Event reactions have priority over the long-lived mood palette. */
+    switch (pet_reaction) {
+    case PIP_SURPRISED:
+        s_face.eye[0].w = s_face.eye[1].w = 43.0f;
+        s_face.eye[0].h = s_face.eye[1].h = 57.0f;
+        s_face.eye[0].lid = s_face.eye[1].lid = 0.0f;
+        s_face.eye[0].pw = s_face.eye[1].pw = 0.24f;
+        s_face.eye[0].ph = s_face.eye[1].ph = 0.26f;
+        break;
+    case PIP_LOVE:
+        s_face.eye[0].heart = s_face.eye[1].heart = 1.0f;
+        s_face.eye[0].smile = s_face.eye[1].smile = 0.34f;
+        s_face.blush = 0.75f;
+        break;
+    case PIP_HAPPY:
+        s_face.eye[0].smile = s_face.eye[1].smile = 0.52f;
+        s_face.blush = fmaxf(s_face.blush, 0.30f);
+        break;
+    case PIP_NO:
+        s_face.eye[0].tilt = 0.22f; s_face.eye[1].tilt = -0.22f;
+        s_face.eye[0].smile = s_face.eye[1].smile = 0.0f;
+        break;
+    case PIP_NAUSEOUS: case PIP_DISGUSTED:
+        s_face.eye[0].lid = s_face.eye[1].lid = 0.35f;
+        s_face.eye[0].tilt = -0.18f; s_face.eye[1].tilt = 0.18f;
+        s_face.eye[0].smile = s_face.eye[1].smile = 0.0f;
+        break;
+    default: break;
+    }
     reset_rects();
     face_draw(&s_face, s_frame, FRAME_W, FRAME_H);
 }
