@@ -1,78 +1,50 @@
 # Pip-KeyPet PT-BR + Muse Gadget 🤖
 
-Projeto de integração do **Pip-KeyPet** com o **Muse Gadget SDK**, com foco em transformar o dispositivo em um **Tamagotchi virtual com IA**, mantendo o rosto expressivo e a personalidade do Pip.
+Integração em desenvolvimento do **Pip-KeyPet** com o **Muse Gadget SDK**, com objetivo de criar um companheiro portátil com personalidade e interação por voz/IA.
 
-A proposta combina a interface e o ciclo de vida do bichinho do Pip com a infraestrutura do Muse para firmware, tela, áudio, conectividade e interação com serviços de IA.
+## Projeto
+- **Pip:** personagem, expressões, humor, necessidades, animações e comportamento.
+- **Muse Gadget SDK:** firmware, hardware, LVGL, áudio e conectividade.
+- **Placa-alvo:** Waveshare ESP32-S3-Touch-AMOLED-1.75C.
 
-## Visão do projeto
-
-- **Pip:** identidade visual, expressões, humor, necessidades, animações e comportamento de Tamagotchi.
-- **Muse Gadget SDK:** base de firmware, integração com o hardware, interface LVGL, áudio e conectividade.
-- **Objetivo:** um companheiro portátil com rosto animado, personalidade persistente e interação por voz com IA.
-
-## Imagens de referência
-
-As imagens abaixo vêm da documentação visual do projeto original Pip-KeyPet e servem como referência para preservar as expressões e a identidade do personagem durante a integração.
+## Referências visuais
+As imagens abaixo são referências do projeto Pip-KeyPet original e ajudam a preservar o estilo do personagem.
 
 | Expressões do Pip | Reações do Pip |
 |---|---|
-| ![Expressões base do Pip](docs/references/pip-expressoes-base.png) | ![Expressões e reações do Pip](docs/references/pip-expressoes-reacao.png) |
+| ![Expressões base](docs/references/pip-expressoes-base.png) | ![Reações](docs/references/pip-expressoes-reacao.png) |
 
 | Sim e não | Painel de expressões |
 |---|---|
-| ![Expressões de sim e não](docs/references/pip-expressoes-sim-nao.png) | ![Painel de expressões do Pip](docs/references/pip-painel-expressoes.png) |
+| ![Sim e não](docs/references/pip-expressoes-sim-nao.png) | ![Painel](docs/references/pip-painel-expressoes.png) |
 
-Créditos das imagens: [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet). Os arquivos foram adicionados como referências visuais, não como uma nova autoria do personagem.
+Créditos: [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet). Imagens adicionadas como referência, sem reivindicar autoria do personagem.
 
-## Hardware-alvo
+## Status
+**Firmware: integração em andamento.** O Muse é a base de hardware e sessões; o Pip está conectado ao avatar, personalidade e eventos de conversa.
 
-**Waveshare ESP32-S3-Touch-AMOLED-1.75C**
+- [x] Submódulos upstream pinados.
+- [x] Motor de personalidade integrado e testes portáveis.
+- [x] Avatar adaptado e compilado.
+- [x] Eventos de transcrição/resposta, toque, lift-wake e shake conectados.
+- [x] Build automatizado padrão e perfil experimental realtime voice aprovados.
+- [ ] Preparação de credenciais/token de dispositivo.
+- [ ] Validar sessão/pareamento com serviço e conta.
+- [ ] Verificar coexistência Bluetooth e conexão com iPhone.
+- [ ] Testes físicos de áudio, display, touch, acelerômetro, NVS e bateria.
+- [ ] Aplicativos e navegação do Pip (planejado para uma etapa posterior).
 
-O Muse SDK já possui suporte para esta família de placa. A integração será feita sobre a implementação de hardware do Muse, evitando inicializações duplicadas de tela, áudio, Bluetooth ou outros periféricos.
+## Documentação técnica
+- [Integração e arquitetura](INTEGRATION.md)
+- [Voz e IA](docs/VOICE_INTEGRATION.md)
+- [Pendências técnicas prioritárias](docs/REMAINING_WORK.md)
 
-## Arquitetura planejada
-
-1. O Muse inicializa e gerencia o hardware e os serviços do dispositivo.
-2. O componente de personalidade do Pip mantém fome, energia, diversão, carinho, humor e reações.
-3. A interface do Pip é adaptada para LVGL e passa a renderizar o rosto e suas animações na tela do Muse.
-4. Os eventos de voz e IA alimentam a personalidade do Pip, que responde com expressões e comportamentos próprios.
-
-## Estado atual
-
-**Status: Em desenvolvimento**
-
-- [x] Repositórios originais conectados como submódulos.
-- [x] Estrutura inicial de integração criada.
-- [x] Motor de personalidade do Pip integrado como componente C independente.
-- [x] Testes automatizados do motor de personalidade e persistência.
-- [x] Referências visuais do personagem adicionadas.
-- [x] Adaptador inicial do renderizador de olhos do Pip para o avatar customizado do Muse (128 × 128).
-- [ ] Integrar todas as animações e expressões do Pip ao LVGL.
-- [x] Ligar o evento de levantar o dispositivo (lift-wake do Muse) ao evento `PIP_WAKE` do Tamagotchi.
-- [ ] Integrar os eventos de voz e IA à personalidade.
-- [ ] Validar em CI o perfil experimental de chamadas de voz em tempo real.
-- [x] Resolver a compatibilidade de compilação entre o Pip (ESP-IDF 5.5) e o Muse (ESP-IDF 6.0.3) no perfil padrão.
-- [x] Testes automatizados do motor de personalidade no GitHub Actions.
-- [x] Compilar o firmware completo Muse + Pip para Waveshare 1.75C (ESP-IDF 6.0.3; build automatizado aprovado).
-- [ ] Validar o firmware no hardware.
-
-Para preparar o checkout local do firmware Muse com o avatar do Pip, execute `sh firmware/scripts/apply_muse_overlay.sh` na raiz do repositório após inicializar os submódulos.
-
-**Importante:** o perfil padrão do firmware Muse + Pip já compilou em CI para ESP32-S3/Waveshare 1.75C. Isso valida a compilação, não o funcionamento físico. O firmware ainda não foi testado na placa e o build sinaliza que falta configurar o token oficial do dispositivo para pareamento. Não grave como versão pronta.
-
-## Repositórios de origem
-
+## Repositórios upstream
 - [Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet)
 - [Muse Gadget SDK](https://github.com/facebookincubator/muse-gadget-sdk)
 
-O código original é mantido nos respectivos repositórios e referenciado neste projeto por submódulos, com commits fixados para tornar a integração reproduzível.
+## Interface web PT-BR
+[Abrir versão web](https://dutragusta.github.io/Pip-KeyPet-PTBR/)
 
-## Interface web em português
-
-A versão traduzida do painel web continua disponível em:
-
-**[Abrir Pip-KeyPet PT-BR](https://dutragusta.github.io/Pip-KeyPet-PTBR/)**
-
-## Licenças e créditos
-
-Este projeto integra componentes de terceiros. Consulte as licenças e avisos de cada repositório de origem antes de redistribuir binários ou versões derivadas. As imagens de referência permanecem creditadas ao projeto original Pip-KeyPet.
+## Licenças
+Consulte as licenças e avisos dos projetos upstream antes de redistribuir binários ou versões derivadas.
