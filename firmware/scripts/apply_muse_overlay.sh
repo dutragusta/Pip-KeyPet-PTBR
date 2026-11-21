@@ -47,5 +47,13 @@ replace_once(state, 'muse_mode_t muse_state_mode(float *secs_in_mode)\n{\n', 'mu
 ui = muse / "components" / "muse" / "muse_ui.c"
 replace_once(ui, '#include "muse_state.h"\n', '#include "muse_state.h"\n#include "pip_muse_bridge.h"\n')
 replace_once(ui, '        muse_state_make_happy();\n', '        muse_state_make_happy();\n        pip_muse_bridge_on_touch();\n')
+input = muse / "components" / "muse" / "muse_input.c"
+replace_once(input, '#include "muse_input.h"\\n', '#include "muse_input.h"\\n#include "pip_muse_bridge.h"\\n')
+replace_once(input,
+    '        if (muse_motion_tick((uint32_t)(esp_timer_get_time() / 1000))) {\\n'
+    '            set_asleep(false, "lift");',
+    '        if (muse_motion_tick((uint32_t)(esp_timer_get_time() / 1000))) {\\n'
+    '            pip_muse_bridge_on_lift();\\n'
+    '            set_asleep(false, "lift");')
 print("Overlay Muse + Pip aplicado (voz + toque + personalidade).")
 PY
