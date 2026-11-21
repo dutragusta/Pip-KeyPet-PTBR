@@ -28,15 +28,16 @@ Créditos: [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-Key
 - [x] Avatar adaptado e compilado.
 - [x] Eventos de transcrição/resposta, toque, lift-wake e shake conectados.
 - [x] Build automatizado padrão e perfil experimental realtime voice aprovados.
-- [ ] Preparação de credenciais/token de dispositivo.
-- [ ] Validar sessão/pareamento com serviço e conta.
-- [ ] Verificar coexistência Bluetooth e conexão com iPhone.
+- [x] Procedimento seguro de credenciais/token e build local documentado.
+- [ ] Configurar token real e validar sessão/pareamento com serviço e conta.
+- [ ] Validar coexistência Bluetooth/Wi-Fi e conexão com iPhone na placa.
 - [ ] Testes físicos de áudio, display, touch, acelerômetro, NVS e bateria.
 - [ ] Aplicativos e navegação do Pip (planejado para uma etapa posterior).
 
 ## Documentação técnica
 - [Integração e arquitetura](INTEGRATION.md)
 - [Voz e IA](docs/VOICE_INTEGRATION.md)
+- [Preparação e testes da Waveshare](docs/DEVICE_READINESS.md)
 - [Pendências técnicas prioritárias](docs/REMAINING_WORK.md)
 
 ## Repositórios upstream
