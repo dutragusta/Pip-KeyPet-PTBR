@@ -53,4 +53,14 @@ A migração para ESP-IDF 6.0.3 faz parte do trabalho. A compatibilidade não se
 
 ## Estado atual
 
-Esta branch contém a fundação versionada e os dois projetos upstream fixados. **Ainda não é um firmware integrado nem está pronta para gravação.** As próximas alterações devem portar os módulos de UI e criar a camada de adaptação Muse ↔ Pip, mantendo o firmware original e a página web publicados intactos.
+- [x] Fontes upstream fixadas como submódulos.
+- [x] Motor de personalidade original do Pip integrado em componente C independente.
+- [x] API de eventos, leitura de necessidades e humor atual.
+- [x] Exportação/restauração do estado com validação de versão e integridade básica.
+- [x] Testes nativos do motor de personalidade configurados no GitHub Actions.
+- [ ] Portar o renderizador de rosto para LVGL 9 usado pelo Muse.
+- [ ] Ligar os eventos de voz/IA ao personagem.
+- [ ] Compilar o firmware completo com ESP-IDF 6.0.3.
+- [ ] Validar no hardware.
+
+**Ainda não é um firmware pronto para gravação.** Os testes atuais validam o motor portátil de personalidade no computador; não substituem a compilação do firmware ESP-IDF nem os testes físicos. A interface web e a branch `main` permanecem intactas.

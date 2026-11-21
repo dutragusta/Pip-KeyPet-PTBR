@@ -39,16 +39,18 @@ O Muse SDK já possui suporte para esta família de placa. A integração será 
 
 ## Estado atual
 
-<badge>Em desenvolvimento</badge>
+**Status: Em desenvolvimento**
 
 - [x] Repositórios originais conectados como submódulos.
 - [x] Estrutura inicial de integração criada.
-- [x] Componente inicial para a lógica de personalidade do Pip.
+- [x] Motor de personalidade do Pip integrado como componente C independente.
+- [x] Testes automatizados do motor de personalidade e persistência.
 - [x] Referências visuais do personagem adicionadas.
 - [ ] Portar o rosto e as animações para LVGL.
 - [ ] Integrar os eventos de voz e IA à personalidade.
 - [ ] Resolver e validar a compatibilidade entre as versões do ESP-IDF.
-- [ ] Configurar compilação automatizada.
+- [x] Testes automatizados do motor de personalidade no GitHub Actions.
+- [ ] Compilar o firmware completo Muse + Pip.
 - [ ] Validar o firmware no hardware.
 
 **Importante:** esta branch é uma base de desenvolvimento. O firmware integrado ainda não foi compilado nem validado em dispositivo e não deve ser gravado como se fosse uma versão pronta.
