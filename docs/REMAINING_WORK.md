@@ -1,47 +1,33 @@
-# Pendências técnicas prioritárias (fora da interface Tamagotchi)
+# Pendências técnicas prioritárias
 
-A interface, navegação e minigames do Pip ficam para uma etapa posterior. Neste momento, a prioridade é deixar a base Muse + avatar + voz/conectividade bem documentada e pronta para validação quando a placa chegar.
+A etapa atual é preparar e validar a base Muse + Pip na Waveshare ESP32-S3-Touch-AMOLED-1.75C. Aplicativos, navegação e minigames do Pip ficam para depois.
 
-## 1. Credencial do dispositivo
-- [ ] Obter o token oficial do dispositivo pelo fluxo Muse.
-- [ ] Configurar token somente no ambiente local de build.
-- [ ] Confirmar que tokens e arquivos pessoais não são rastreados pelo Git.
+## Preparação de software já realizada
+- [x] Submódulos upstream fixados em commits conhecidos.
+- [x] Build CI do firmware para a placa.
+- [x] Build CI do perfil experimental realtime voice.
+- [x] Testes portáveis da personalidade.
+- [x] Hooks de transcrição/resposta, toque, lift e shake compilados.
+- [x] Persistência Pip em namespace NVS separado, com schema e validação.
+- [x] Procedimento local de token e build documentado.
+- [x] Fluxo de pareamento, arquitetura BLE/Wi-Fi e matriz de testes documentados.
 
-## 2. Sessão, pareamento e IA
-- [ ] Validar pareamento do ESP32 com a conta/VM.
-- [ ] Testar envio de voice note, captions e resposta.
-- [ ] Testar chamada realtime experimental, se a conta/VM permitir.
-- [ ] Confirmar transições de estados (idle/listening/thinking/speaking/error).
-- [ ] Confirmar em hardware que as respostas de áudio do perfil padrão reproduzem corretamente pelo alto-falante (o guia upstream descreve esse recurso).
+## Bloqueadores que exigem conta ou placa
+- [ ] Emitir token em gadgets.muse.ai → Account → SDK tokens e configurar localmente.
+- [ ] Validar pareamento BLE pelo iPhone.
+- [ ] Validar Wi-Fi, vínculo de conta/VM e sessão Hatch/Muse.
+- [ ] Confirmar envio de voice note, resposta em captions e áudio no alto-falante.
+- [ ] Testar coexistência BLE + Wi-Fi + iPhone, incluindo reconexão.
+- [ ] Testar fisicamente display, touch, microfone, alto-falante e controles.
+- [ ] Calibrar acelerômetro para lift/shake.
+- [ ] Validar NVS em ciclos de reboot e recuperação de estado inválido.
+- [ ] Validar bateria, carregamento, consumo e autonomia.
+- [ ] Repetir testes de estabilidade e registrar falhas.
 
-## 3. Bluetooth e iPhone
-- [ ] Auditar coexistência entre BLE do Muse e conectividade Bluetooth do iPhone.
-- [ ] Evitar inicializar um segundo host BLE ou stack concorrente.
-- [ ] Definir qual fluxo é responsável por pairing, descoberta e conexão.
-- [ ] Verificar consumo, reconexão e comportamento após perda de sinal.
+## Depois desta etapa
+- [ ] Portar aplicativos e navegação do Pip.
+- [ ] Integrar ações feed/play/poke à interface.
+- [ ] Adicionar jogos e utilitários do Pip.
 
-## 4. Build e distribuição
-- [x] Build CI padrão.
-- [x] Build CI experimental realtime voice.
-- [ ] Criar procedimento reproduzível para builds locais.
-- [ ] Registrar versão dos submódulos e SDK, flags e configurações usadas.
-- [ ] Definir artefato e política de release somente após testes físicos.
-
-## 5. Testes físicos (quando houver placa)
-- [ ] Display e renderizador: escala, taxa de atualização, tearing e brilho.
-- [ ] Touch: toque, gesto, áreas e latência.
-- [ ] Microfone, alto-falante e volume.
-- [ ] Realtime voice: half-duplex, cortes e interrupção.
-- [ ] Acelerômetro: wake/shake e calibrar thresholds.
-- [ ] NVS: salvar, reiniciar, restaurar e testar estado inválido.
-- [ ] Wi-Fi/Bluetooth: pareamento, reconexão e coexistência.
-- [ ] Bateria: consumo, aquecimento e autonomia.
-- [ ] Testar comportamento em falha de rede, serviço indisponível e reinicialização.
-
-## 6. Interface Pip (adiada)
-- [ ] Portar aplicativos e interações do Pip.
-- [ ] Navegação de pet e ações feed/play/poke.
-- [ ] Contexto visual/expressões adicionais.
-
-## Critério para firmware de teste
-Só preparar um release de teste para flash quando: token e pareamento estiverem resolvidos, builds estiverem reproduzíveis, revisão de segurança de credenciais concluída e documentação de risco/limitações estiver atualizada. Mesmo então, o firmware será experimental até passar pelo checklist físico.
+## Critério de firmware para teste
+Não declarar firmware pronto para uso ou release antes de concluir o checklist físico em `docs/DEVICE_READINESS.md`. CI verde comprova compilação e testes automatizados, não pareamento, áudio, tela ou bateria.
