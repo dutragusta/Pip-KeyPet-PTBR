@@ -42,7 +42,7 @@ static void apply_pip_mood(face_t *face, int mood, float t)
         a->lid = b->lid = 0.22f; a->look_y = b->look_y = 0.20f;
         a->wet = b->wet = mood == PIP_DESPONDENT || mood == PIP_LONELY ? 0.75f : 0.35f; break;
     case PIP_ANGRY: case PIP_ANNOYED: case PIP_FURIOUS: case PIP_RAGE:
-    case PIP_SWEARING: case PIP_INDIGNANT: case PIP_BELLIGERENT: case PIP_HURT:
+    case PIP_SWEARING: case PIP_INDIGNANT: case PIP_BELLIGERENT:
         a->lid = b->lid = 0.30f; a->tilt = -0.32f; b->tilt = 0.32f;
         a->veins = b->veins = mood >= PIP_FURIOUS && mood <= PIP_BELLIGERENT ? 0.8f : 0.25f;
         face->vein_color = 0xf986; break;
