@@ -49,6 +49,41 @@ replace_once(ui, '#include "muse_state.h"\n', '#include "muse_state.h"\n#include
 replace_once(ui, '        muse_state_make_happy();\n', '        muse_state_make_happy();\n        pip_muse_bridge_on_touch();\n')
 input = muse / "components" / "muse" / "muse_input.c"
 replace_once(input, '#include "muse_input.h"\n', '#include "muse_input.h"\n#include "pip_muse_bridge.h"\n')
+motion = muse / "components" / "muse" / "muse_motion.c"
+replace_once(motion, '#include "muse_motion_core.h"\n', '#include "muse_motion_core.h"\n#include "pip_muse_bridge.h"\n')
+replace_once(motion, 'static muse_motion_core_t s_core;\n',
+    'static muse_motion_core_t s_core;\n'
+    'static muse_motion_sample_t s_pip_shake_prev;\n'
+    'static uint32_t s_pip_shake_window, s_pip_shake_last;\n'
+    'static unsigned s_pip_shake_hits;\n'
+    'static bool s_pip_shake_have_prev;\n')
+replace_once(motion, 'static uint32_t s_last_poll, s_last_sample;\n',
+    'static uint32_t s_last_poll, s_last_sample;\n'
+    'static void pip_detect_shake(muse_motion_sample_t sample, uint32_t now)\n'
+    '{\n'
+    '    if (s_pip_shake_have_prev) {\n'
+    '        int32_t x = (int32_t)sample.x - s_pip_shake_prev.x;\n'
+    '        int32_t y = (int32_t)sample.y - s_pip_shake_prev.y;\n'
+    '        int32_t z = (int32_t)sample.z - s_pip_shake_prev.z;\n'
+    '        int64_t delta = (int64_t)x*x + (int64_t)y*y + (int64_t)z*z;\n'
+    '        if (delta >= 1000LL*1000) {\n'
+    '            if (!s_pip_shake_window || (uint32_t)(now - s_pip_shake_window) > 900) {\n'
+    '                s_pip_shake_window = now; s_pip_shake_hits = 0;\n'
+    '            }\n'
+    '            if (!s_pip_shake_last || (uint32_t)(now - s_pip_shake_last) >= 90) {\n'
+    '                s_pip_shake_last = now;\n'
+    '                if (++s_pip_shake_hits >= 4) {\n'
+    '                    pip_muse_bridge_on_shake();\n'
+    '                    s_pip_shake_hits = 0; s_pip_shake_window = now;\n'
+    '                }\n'
+    '            }\n'
+    '        }\n'
+    '    }\n'
+    '    s_pip_shake_prev = sample; s_pip_shake_have_prev = true;\n'
+    '}\n')
+replace_once(motion, '    bool wake = muse_motion_update(&s_core, a, now);',
+    '    pip_detect_shake(a, now);\n'
+    '    bool wake = muse_motion_update(&s_core, a, now);')
 replace_once(input,
     '        if (muse_motion_tick((uint32_t)(esp_timer_get_time() / 1000))) {\n'
     '            set_asleep(false, "lift");',
