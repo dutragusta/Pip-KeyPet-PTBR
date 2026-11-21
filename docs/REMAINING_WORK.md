@@ -12,7 +12,7 @@ A interface, navegação e minigames do Pip ficam para uma etapa posterior. Nest
 - [ ] Testar envio de voice note, captions e resposta.
 - [ ] Testar chamada realtime experimental, se a conta/VM permitir.
 - [ ] Confirmar transições de estados (idle/listening/thinking/speaking/error).
-- [ ] Investigar caminho de TTS para perfil padrão, caso necessário.
+- [ ] Confirmar em hardware que as respostas de áudio do perfil padrão reproduzem corretamente pelo alto-falante (o guia upstream descreve esse recurso).
 
 ## 3. Bluetooth e iPhone
 - [ ] Auditar coexistência entre BLE do Muse e conectividade Bluetooth do iPhone.
