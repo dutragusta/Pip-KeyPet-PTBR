@@ -17,7 +17,7 @@ typedef struct {
 typedef struct {
     float food, energy, fun, love, walk, valence;
     bool asleep;
-    int mood, hour;
+    int mood, hour, reaction_mood;
 } pip_personality_status_t;
 
 typedef enum {
