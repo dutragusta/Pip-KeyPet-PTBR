@@ -16,5 +16,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+      - name: Apply Muse integration overlay
+        run: sh firmware/scripts/apply_muse_overlay.sh
+      - name: Verify Muse overlay
+        run: |
+          grep -q '#define MUSE_PX_W 128' vendor/muse-gadget-sdk/esp32/components/muse/muse_pixel.h
+          test -f vendor/muse-gadget-sdk/esp32/components/muse/avatar/muse_pixel.c
+          grep -q 'pip_personality' vendor/muse-gadget-sdk/esp32/main/CMakeLists.txt
       - name: Run portable personality tests
         run: sh tests/personality/run.sh

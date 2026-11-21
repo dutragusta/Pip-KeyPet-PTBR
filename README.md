@@ -46,12 +46,15 @@ O Muse SDK já possui suporte para esta família de placa. A integração será 
 - [x] Motor de personalidade do Pip integrado como componente C independente.
 - [x] Testes automatizados do motor de personalidade e persistência.
 - [x] Referências visuais do personagem adicionadas.
-- [ ] Portar o rosto e as animações para LVGL.
+- [x] Adaptador inicial do renderizador de olhos do Pip para o avatar customizado do Muse (128 × 128).
+- [ ] Integrar todas as animações e expressões do Pip ao LVGL.
 - [ ] Integrar os eventos de voz e IA à personalidade.
 - [ ] Resolver e validar a compatibilidade entre as versões do ESP-IDF.
 - [x] Testes automatizados do motor de personalidade no GitHub Actions.
 - [ ] Compilar o firmware completo Muse + Pip.
 - [ ] Validar o firmware no hardware.
+
+Para preparar o checkout local do firmware Muse com o avatar do Pip, execute `sh firmware/scripts/apply_muse_overlay.sh` na raiz do repositório após inicializar os submódulos.
 
 **Importante:** esta branch é uma base de desenvolvimento. O firmware integrado ainda não foi compilado nem validado em dispositivo e não deve ser gravado como se fosse uma versão pronta.
 

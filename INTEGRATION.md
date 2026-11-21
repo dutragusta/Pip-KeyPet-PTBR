@@ -58,9 +58,13 @@ A migração para ESP-IDF 6.0.3 faz parte do trabalho. A compatibilidade não se
 - [x] API de eventos, leitura de necessidades e humor atual.
 - [x] Exportação/restauração do estado com validação de versão e integridade básica.
 - [x] Testes nativos do motor de personalidade configurados no GitHub Actions.
-- [ ] Portar o renderizador de rosto para LVGL 9 usado pelo Muse.
+- [x] Adaptador de rosto usando o renderizador original `face.c` como avatar customizado do Muse.
+- [x] Overlay reproduzível para conectar o componente de personalidade e o renderizador ao CMake do Muse.
+- [ ] Completar o mapeamento de todas as expressões, animações e interações do Pip para o LVGL 9.
 - [ ] Ligar os eventos de voz/IA ao personagem.
 - [ ] Compilar o firmware completo com ESP-IDF 6.0.3.
 - [ ] Validar no hardware.
+
+O overlay é aplicado ao checkout do submódulo pelo script `firmware/scripts/apply_muse_overlay.sh`. Ele altera somente a cópia de trabalho de `vendor/muse-gadget-sdk`; os commits upstream fixados não são reescritos.
 
 **Ainda não é um firmware pronto para gravação.** Os testes atuais validam o motor portátil de personalidade no computador; não substituem a compilação do firmware ESP-IDF nem os testes físicos. A interface web e a branch `main` permanecem intactas.
