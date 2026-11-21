@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* the keychain's own world: AMOLED black, the Приборка orange, mono headers like the device's "МУЗЫКА // КОМПЬЮТЕР".
+/* the keychain's own world: AMOLED black, the orange accent color and the device's monospaced headers.
    Layout: a sticky rail (Pip, the link, the tabs) beside a wide grid of cards; one column under 900px. */
 :root{
   --bg:#09090a; --panel:#131315; --raised:#1b1b1e; --line:#29292d; --text:#efede8; --dim:#99968e;
@@ -159,7 +159,7 @@ details p{margin:8px 0 0}
 
   <main>
     <div class="notice" id="nobrowser" hidden>
-      Este navegador não é compatível com o chaveiro. Abra esta página no <b>Google Chrome</b> или <b>Microsoft Edge</b> на компьютере.
+      Este navegador não é compatível com o chaveiro. Abra esta página no <b>Google Chrome</b> ou no <b>Microsoft Edge</b> em um computador.
     </div>
 
     <section data-tab="settings">
@@ -249,7 +249,7 @@ details p{margin:8px 0 0}
         <div class="card wide">
           <div class="flashbox">
             <button class="main" id="flash">Gravar</button>
-            <div><div class="bar"><i id="prog"></i></div><p id="flashState" class="muted" style="margin-top:8px">O bichinho, as configurações e o iPhone conectado são preservados durante a atualização.</p></div>
+            <div><div class="bar"><i id="prog"></i></div><p id="flashState" class="muted" style="margin-top:8px">O Tamagotchi virtual, as configurações e o iPhone conectado são preservados durante a atualização.</p></div>
           </div>
           <details class="muted"><summary>Problemas?</summary>
             <p>O chaveiro não aparece na lista: experimente outro cabo ou porta USB. No Linux, execute uma vez
@@ -395,7 +395,7 @@ setInterval(() => { if ((port || ble) && Date.now() - alive > 4000 && alive) sta
 for (let i = 0; i < 4; i++) $('links').insertAdjacentHTML('beforeend',
   `<div class="link"><span class="n">${i + 1}</span><input type="text" placeholder="Telegram" maxlength="18" id="ls${i}" aria-label="Nome ${i + 1}">` +
   `<input type="text" placeholder="@usuario" maxlength="46" id="lh${i}" aria-label="Descrição ${i + 1}">` +
-  `<input type="url" placeholder="https://t.me/ник" maxlength="198" id="lu${i}" aria-label="Link ${i + 1}"></div>`);
+  `<input type="url" placeholder="https://t.me/usuario" maxlength="198" id="lu${i}" aria-label="Link ${i + 1}"></div>`);
 for (const [f, name, note] of FEATS) $('feats').insertAdjacentHTML('beforeend',
   `<div class="toggle"><div>${name}<small>${note}</small></div><label class="switch"><input type="checkbox" id="f${f}" aria-label="${name}"><span></span></label></div>`);
 const clean = s => s.replace(/[|\n\r]/g, ' ').trim();
@@ -435,7 +435,7 @@ $('tabs').onclick = e => {
   document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
   document.querySelectorAll('section[data-tab]').forEach(s => s.hidden = s.dataset.tab !== t);
 };
-$('openDebug').onclick = async () => { await closePort(); state('Depuração открыта в новой вкладке', false); window.open('https://novikovvisuals.github.io/Pip-KeyPet/debug.html', '_blank'); };
+$('openDebug').onclick = async () => { await closePort(); state('Depuração aberta em uma nova aba', false); window.open('https://novikovvisuals.github.io/Pip-KeyPet/debug.html', '_blank'); };
 $('devOn').onclick = () => send('dev 1');
 let batRows = null;
 $('batGet').onclick = () => { batRows = []; send('bat'); };
