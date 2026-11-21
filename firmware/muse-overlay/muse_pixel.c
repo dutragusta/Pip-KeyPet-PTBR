@@ -95,13 +95,14 @@ void muse_pixel_render(const muse_pose_t *pose) {
     if (happy > 0.35f && pose->mode != MUSE_MODE_ERROR)
         smile = fmaxf(smile, 0.24f + happy * 0.24f);
     /* Short Pip reactions take priority over the base needs-driven mood. */
+    float reaction_blush = 0.0f;
     switch (pet_reaction) {
     case PIP_SURPRISED:
         w = 43.0f; h = 57.0f; lid = 0.0f; pw = 0.24f; ph = 0.26f; smile = 0.0f; break;
     case PIP_LOVE:
-        heart = 1.0f; smile = 0.28f; s_face.blush = 0.65f; break;
+        heart = 1.0f; smile = 0.28f; reaction_blush = 0.65f; break;
     case PIP_HAPPY:
-        smile = fmaxf(smile, 0.52f); s_face.blush = 0.30f; break;
+        smile = fmaxf(smile, 0.52f); reaction_blush = 0.30f; break;
     case PIP_NO:
         lid = fmaxf(lid, 0.20f); tilt = 0.22f; smile = 0.0f; break;
     case PIP_NAUSEOUS:
@@ -111,7 +112,7 @@ void muse_pixel_render(const muse_pose_t *pose) {
     }
     uint16_t bg = rgb565(s_background);
     for (int i = 0; i < FRAME_W * FRAME_H; ++i) s_frame[i] = bg;
-    s_face.color = eye_color; s_face.blush = clamp01(happy * 0.85f);
+    s_face.color = eye_color; s_face.blush = clamp01(fmaxf(happy * 0.85f, reaction_blush));
     s_face.eye[0] = (eye_t){.x=39,.y=64,.w=w,.h=h,.depth=28,.taper=-0.06f,
         .lid=lid,.tilt=-tilt,.smile=smile,.look_x=lx,.look_y=ly,.pw=pw,.ph=ph,
         .heart=heart,.wobble=0.22f,.wob_t=t,.glint=0.45f};
