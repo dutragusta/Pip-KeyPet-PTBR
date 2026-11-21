@@ -19,8 +19,8 @@ O firmware não copia o entry point do Pip e não inicializa periféricos duplic
 
 O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalidade aos pontos existentes do Muse:
 
-- mudança para `MUSE_MODE_LISTENING`: evento de gravação;
-- mudança para `MUSE_MODE_SPEAKING`: evento de interação/companhia;
+- `MUSE_MODE_LISTENING`: altera a expressão visual de escuta, sem disparar um evento de Tamagotchi (gravar voz não deve ser confundido com conquistar um novo recorde);
+- mudança para `MUSE_MODE_SPEAKING`: evento de interação/companhia (`PIP_SEEN`);
 - mudança para `MUSE_MODE_ERROR`: evento de susto;
 - toque no rosto do avatar: evento de carinho;
 - levantar o dispositivo, quando o recurso de lift-wake do Muse estiver habilitado: evento `PIP_WAKE` para acordar o Tamagotchi;
