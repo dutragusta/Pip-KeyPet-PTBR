@@ -1,0 +1,28 @@
+name: Pip simulator checks
+
+on:
+  push:
+    branches:
+      - integration/muse-pip-foundation
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  web-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: node --check simulator/app.js
+      - name: Verify simulator assets
+        run: |
+          test -s simulator/index.html
+          test -s simulator/style.css
+          test -s simulator/app.js
+          test -s simulator/manifest.webmanifest
+          test -s simulator/sw.js
+          grep -q 'localStorage' simulator/app.js
+          grep -q 'SpeechRecognition' simulator/app.js
+          grep -q 'Adicionar à Tela de Início' simulator/README.md
