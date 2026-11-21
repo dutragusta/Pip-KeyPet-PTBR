@@ -48,15 +48,15 @@ ui = muse / "components" / "muse" / "muse_ui.c"
 replace_once(ui, '#include "muse_state.h"\n', '#include "muse_state.h"\n#include "pip_muse_bridge.h"\n')
 replace_once(ui, '        muse_state_make_happy();\n', '        muse_state_make_happy();\n        pip_muse_bridge_on_touch();\n')
 voice = muse / "components" / "muse" / "muse_voice.c"
-replace_once(voice, '#include "muse_voice.h"\\n', '#include "muse_voice.h"\\n#include "pip_muse_bridge.h"\\n')
+replace_once(voice, '#include "muse_voice.h"\n', '#include "muse_voice.h"\n#include "pip_muse_bridge.h"\n')
 replace_once(voice,
-    '            if (ev == MUSE_HATCH_EV_HEARD && text[0]) {\\n',
-    '            if (ev == MUSE_HATCH_EV_HEARD && text[0]) {\\n'
-    '                pip_muse_bridge_on_heard();\\n')
+    '            if (ev == MUSE_HATCH_EV_HEARD && text[0]) {\n',
+    '            if (ev == MUSE_HATCH_EV_HEARD && text[0]) {\n'
+    '                pip_muse_bridge_on_heard();\n')
 replace_once(voice,
-    '            case MUSE_HATCH_EV_REPLY:\\n',
-    '            case MUSE_HATCH_EV_REPLY:\\n'
-    '                pip_muse_bridge_on_reply();\\n')
+    '            case MUSE_HATCH_EV_REPLY:\n',
+    '            case MUSE_HATCH_EV_REPLY:\n'
+    '                pip_muse_bridge_on_reply();\n')
 input = muse / "components" / "muse" / "muse_input.c"
 replace_once(input, '#include "muse_input.h"\n', '#include "muse_input.h"\n#include "pip_muse_bridge.h"\n')
 motion = muse / "components" / "muse" / "muse_motion.c"
