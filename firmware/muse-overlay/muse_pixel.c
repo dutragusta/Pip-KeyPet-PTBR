@@ -186,7 +186,7 @@ void muse_pixel_render(const muse_pose_t *pose) {
     }
     uint16_t bg = rgb565(s_background);
     for (int i = 0; i < FRAME_W * FRAME_H; ++i) s_frame[i] = bg;
-    s_face.color = eye_color; s_face.blush = clamp01(fmaxf(happy * 0.85f, reaction_blush));
+    s_face.color = eye_color; s_face.blush = 0.0f;
     s_face.eye[0] = (eye_t){.x=39,.y=64,.w=w,.h=h,.depth=28,.taper=-0.06f,
         .lid=lid,.tilt=-tilt,.smile=smile,.look_x=lx,.look_y=ly,.pw=pw,.ph=ph,
         .heart=heart,.wobble=0.22f,.wob_t=t,.glint=0.45f};
