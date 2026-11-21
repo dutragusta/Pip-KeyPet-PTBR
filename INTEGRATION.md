@@ -31,3 +31,7 @@ A CI já aprovou testes portáteis do motor, verificações de overlay e builds 
 Consulte `docs/REMAINING_WORK.md` para o roteiro de voz/IA, credenciais, coexistência BLE, testes de hardware e preparação de release.
 
 **Ainda não é firmware pronto para gravação.** Não foram verificados fisicamente áudio, display, touch, sensor, persistência ou pareamento. A configuração do token oficial do dispositivo continua necessária.
+
+## Identidade visual: somente os olhos do Pip
+
+O avatar integrado deve renderizar **apenas os dois olhos originais do Pip**, usando o renderizador upstream `ui/face.c` para formato, pupilas, pálpebras, olhar e animações. Elementos faciais externos aos olhos (bochechas/blush) ficam desativados. Não desenhar boca, nariz nem rosto completo; o avatar padrão do Muse não deve substituir os olhos do Pip. Efeitos dentro dos olhos, como pupilas em coração, permanecem permitidos quando usados como expressão.
