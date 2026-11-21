@@ -1,6 +1,7 @@
 #include "muse_pixel.h"
 #include "face.h"
 #include "pip_muse_bridge.h"
+#include "moods.h"
 #include "esp_attr.h"
 #include <math.h>
 #include <string.h>
@@ -54,10 +55,12 @@ void muse_pixel_render(const muse_pose_t *pose) {
     pip_personality_status_t pet_status;
     float pet_happy = 0.0f, pet_tired = 0.0f;
     bool pet_asleep = false;
+    int pet_reaction = -1;
     if (pip_muse_bridge_status(&pet_status)) {
         pet_happy = clamp01((pet_status.valence - 0.10f) * 0.70f);
         pet_tired = clamp01((0.45f - pet_status.energy) * 0.90f);
         pet_asleep = pet_status.asleep;
+        pet_reaction = pet_status.reaction_mood;
     }
     const float happy = fmaxf(clamp01(pose->happy), pet_happy);
     float blink = 0.0f;
@@ -91,6 +94,21 @@ void muse_pixel_render(const muse_pose_t *pose) {
     }
     if (happy > 0.35f && pose->mode != MUSE_MODE_ERROR)
         smile = fmaxf(smile, 0.24f + happy * 0.24f);
+    /* Short Pip reactions take priority over the base needs-driven mood. */
+    switch (pet_reaction) {
+    case PIP_SURPRISED:
+        w = 43.0f; h = 57.0f; lid = 0.0f; pw = 0.24f; ph = 0.26f; smile = 0.0f; break;
+    case PIP_LOVE:
+        heart = 1.0f; smile = 0.28f; s_face.blush = 0.65f; break;
+    case PIP_HAPPY:
+        smile = fmaxf(smile, 0.52f); s_face.blush = 0.30f; break;
+    case PIP_NO:
+        lid = fmaxf(lid, 0.20f); tilt = 0.22f; smile = 0.0f; break;
+    case PIP_NAUSEOUS:
+    case PIP_DISGUSTED:
+        lid = fmaxf(lid, 0.30f); tilt = -0.18f; smile = 0.0f; break;
+    default: break;
+    }
     uint16_t bg = rgb565(s_background);
     for (int i = 0; i < FRAME_W * FRAME_H; ++i) s_frame[i] = bg;
     s_face.color = eye_color; s_face.blush = clamp01(happy * 0.85f);
