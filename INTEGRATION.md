@@ -28,7 +28,7 @@ O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalid
 
 O relógio do Tamagotchi só começa quando o relógio de parede está sincronizado e apresenta um timestamp plausível. Isso evita que o bichinho envelheça usando apenas o tempo desde que o ESP32 foi ligado. O fuso inicial está definido como UTC-3 (São Paulo).
 
-O adaptador ainda não restaura nem grava o estado em NVS. Nesta etapa, o estado vive em RAM e é reiniciado após desligar o dispositivo. A persistência será integrada depois de validar a inicialização e o ciclo de vida do armazenamento do Muse.
+O adaptador usa um namespace NVS próprio (pip_pet), separado das configurações do Muse. O snapshot contém identificador e versão de esquema, tamanho do payload e passa pela validação de versão/integridade estrutural do motor antes de ser restaurado. O estado é salvo após eventos e atualizações periódicas. Se o registro estiver ausente ou incompatível, o pet é inicializado novamente quando o relógio estiver sincronizado.
 
 ## Toolchain e limitações
 
