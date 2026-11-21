@@ -31,7 +31,8 @@ replace_once(muse / "components" / "muse" / "CMakeLists.txt",
     '    target_sources(${COMPONENT_LIB} PRIVATE "${PIP_UI_DIR}/face.c"\n'
     '        "${CMAKE_CURRENT_LIST_DIR}/../../../../../firmware/muse-overlay/pip_muse_bridge.c")\n'
     '    target_include_directories(${COMPONENT_LIB} PRIVATE "${PIP_UI_DIR}"\n'
-    '        "${CMAKE_CURRENT_LIST_DIR}/../../../../../firmware/muse-overlay")\n'
+    '        "${CMAKE_CURRENT_LIST_DIR}/../../../../../firmware/muse-overlay"\n'
+    '        "${CMAKE_CURRENT_LIST_DIR}/../../../../../firmware/components/pip_personality/include")\n'
     '    set_source_files_properties("${PIP_UI_DIR}/face.c" PROPERTIES\n'
     '        COMPILE_OPTIONS "-fno-math-errno;-O2")\n'
     'endif()\n')
