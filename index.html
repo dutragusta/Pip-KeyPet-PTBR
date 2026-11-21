@@ -313,7 +313,7 @@ function onLine(l) {
     alive = Date.now();
     const s = JSON.parse(l.slice(3));
     $('mood').textContent = s.m;
-    $('bat').textContent = s.bat >= 0 ? `${s.bat}%${s.ch ? ' · заряжается' : ''}` : '—';
+    $('bat').textContent = s.bat >= 0 ? `${s.bat}%${s.ch ? ' · carregando' : ''}` : '—';
   } else if (l.startsWith('@C ')) { cfg = JSON.parse(l.slice(3)); fill(); }
   else if (l.startsWith('@B ') && batRows) {
     if (l === '@B end') {
@@ -323,7 +323,7 @@ function onLine(l) {
       }).join('\n') + '\n';
       const a = Object.assign(document.createElement('a'), {href: URL.createObjectURL(new Blob([csv], {type: 'text/csv'})), download: 'pip-battery.csv'});
       a.click();
-      $('batState').textContent = `${batRows.length} строк`; $('batState').classList.add('show');
+      $('batState').textContent = `${batRows.length} linhas`; $('batState').classList.add('show');
       batRows = null;
     } else batRows.push(l.slice(3));
   }
