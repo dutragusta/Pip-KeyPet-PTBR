@@ -40,6 +40,7 @@ replace_once(header, "#define MUSE_PX_W 64", "#define MUSE_PX_W 128")
 replace_once(header, "#define MUSE_PX_H 64", "#define MUSE_PX_H 128")
 state = muse / "components" / "muse" / "muse_state.c"
 replace_once(state, '#include "muse_state.h"\n', '#include "muse_state.h"\n#include "pip_muse_bridge.h"\n')
+replace_once(state, '    s_last_poke_us = now;\n', '    s_last_poke_us = now;\n    pip_muse_bridge_init();\n')
 replace_once(state, '    s_mode = mode;\n', '    s_mode = mode;\n    pip_muse_bridge_on_mode(mode);\n')
 replace_once(state, 'muse_mode_t muse_state_mode(float *secs_in_mode)\n{\n', 'muse_mode_t muse_state_mode(float *secs_in_mode)\n{\n    pip_muse_bridge_tick();\n')
 ui = muse / "components" / "muse" / "muse_ui.c"
