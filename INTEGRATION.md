@@ -9,62 +9,32 @@ Esta branch prepara a integração do Pip-KeyPet com o Muse Gadget SDK para a pl
 
 Os dois projetos são mantidos como submódulos para preservar a origem, o histórico e as licenças. A interface web PT-BR existente permanece na raiz do repositório e não é substituída.
 
-## Compatibilidade de hardware
+## Arquitetura
 
-O Muse SDK já possui um perfil específico para a Waveshare ESP32-S3-Touch-AMOLED-1.75C:
-- Driver: `esp32/components/muse/boards/board_waveshare_s3_175c.c`
-- Configuração: `esp32/devices/sdkconfig.muse-waveshare-s3-175c`
-- Guia: `esp32/devices/guides/muse-waveshare-s3-175c.md`
+O Muse SDK continua responsável por hardware, display, touch, LVGL, áudio, Wi-Fi, Bluetooth e sessão de voz. O Pip fornece o personagem, as necessidades, o humor, os eventos e as animações.
 
-A placa usa painel AMOLED circular de 466 px, touch CST9217, codec ES8311, microfones ES7210 e PMU AXP2101. O SDK já trata esses periféricos.
+O firmware não copia o entry point do Pip e não inicializa periféricos duplicados.
 
-## Arquitetura pretendida
+## Integração de runtime adicionada
 
-O Muse SDK será a base do firmware e continuará responsável por:
-- inicialização da placa, painel, touch e gerenciamento de energia;
-- conexão Wi-Fi, pareamento e sessão com o aplicativo Muse;
-- captura e reprodução de áudio e transporte de voz;
-- infraestrutura LVGL e tarefas do dispositivo.
+O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalidade aos pontos existentes do Muse:
 
-O Pip será portado como a camada de personagem e experiência:
-- rosto, olhos, expressões e animações;
-- estados emocionais e ciclo de vida do Tamagotchi;
-- aplicativos, jogos, temas e interação do pet;
-- persistência dos dados e configurações próprias do Pip, adaptadas ao armazenamento do Muse.
+- mudança para `MUSE_MODE_LISTENING`: evento de gravação;
+- mudança para `MUSE_MODE_SPEAKING`: evento de interação/companhia;
+- mudança para `MUSE_MODE_ERROR`: evento de susto;
+- toque no rosto do avatar: evento de carinho;
+- consulta do estado visual: atualiza as necessidades no máximo uma vez por minuto.
 
-## Portabilidade: pontos que precisam ser resolvidos
+O relógio do Tamagotchi só começa quando o relógio de parede está sincronizado e apresenta um timestamp plausível. Isso evita que o bichinho envelheça usando apenas o tempo desde que o ESP32 foi ligado. O fuso inicial está definido como UTC-3 (São Paulo).
 
-**Não copiar o `firmware/main/main.c` do Pip por cima do Muse.** Os dois firmwares inicializam os mesmos recursos de hardware e mantêm arquiteturas de tarefas diferentes.
+O adaptador ainda não restaura nem grava o estado em NVS. Nesta etapa, o estado vive em RAM e é reiniciado após desligar o dispositivo. A persistência será integrada depois de validar a inicialização e o ciclo de vida do armazenamento do Muse.
 
-1. Comparar a versão efetiva do LVGL e as APIs usadas pelos dois projetos.
-2. Portar os módulos reutilizáveis de `ui/` do Pip para um componente próprio dentro do firmware Muse.
-3. Substituir o acesso direto do Pip ao display, touch, áudio, microfone, PMU e acelerômetro pelas interfaces já inicializadas pelo Muse.
-4. Integrar a máquina de estados do Pip à sessão de voz do Muse, para que o personagem reaja a escuta, pensamento, fala, erro e desconexão.
-5. Resolver a coexistência do BLE do Muse com os serviços BLE usados pelo Pip para iPhone. Não iniciar dois hosts BLE independentes.
-6. Reconciliar as configurações de memória, partições, PSRAM e energia antes de habilitar todos os recursos.
-7. Criar testes de compilação e validação de hardware antes de publicar qualquer firmware para gravação.
-
-## Diferença de toolchain
+## Toolchain e limitações
 
 - Pip original: firmware baseado em ESP-IDF 5.5.
-- Muse SDK: firmware baseado em ESP-IDF 6.0.3.
+- Muse SDK fixado: ESP-IDF 6.0.3.
+- O overlay altera somente a cópia de trabalho do submódulo Muse, sem reescrever commits upstream.
+- A CI verifica os patches e executa testes portáteis do motor de personalidade.
+- Ainda falta compilar o firmware completo com ESP-IDF 6.0.3 e validar a integração no hardware.
 
-A migração para ESP-IDF 6.0.3 faz parte do trabalho. A compatibilidade não será presumida.
-
-## Estado atual
-
-- [x] Fontes upstream fixadas como submódulos.
-- [x] Motor de personalidade original do Pip integrado em componente C independente.
-- [x] API de eventos, leitura de necessidades e humor atual.
-- [x] Exportação/restauração do estado com validação de versão e integridade básica.
-- [x] Testes nativos do motor de personalidade configurados no GitHub Actions.
-- [x] Adaptador de rosto usando o renderizador original `face.c` como avatar customizado do Muse.
-- [x] Overlay reproduzível para conectar o componente de personalidade e o renderizador ao CMake do Muse.
-- [ ] Completar o mapeamento de todas as expressões, animações e interações do Pip para o LVGL 9.
-- [ ] Ligar os eventos de voz/IA ao personagem.
-- [ ] Compilar o firmware completo com ESP-IDF 6.0.3.
-- [ ] Validar no hardware.
-
-O overlay é aplicado ao checkout do submódulo pelo script `firmware/scripts/apply_muse_overlay.sh`. Ele altera somente a cópia de trabalho de `vendor/muse-gadget-sdk`; os commits upstream fixados não são reescritos.
-
-**Ainda não é um firmware pronto para gravação.** Os testes atuais validam o motor portátil de personalidade no computador; não substituem a compilação do firmware ESP-IDF nem os testes físicos. A interface web e a branch `main` permanecem intactas.
+**Este projeto ainda não é um firmware pronto para gravação.**

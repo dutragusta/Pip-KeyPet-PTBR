@@ -28,13 +28,22 @@ replace_once(muse / "components" / "muse" / "CMakeLists.txt",
     '    PRIV_REQUIRES ${muse_priv_requires}\n)\n\n'
     'if(custom_avatar)\n'
     '    set(PIP_UI_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../../../vendor/pip-keypet/ui")\n'
-    '    target_sources(${COMPONENT_LIB} PRIVATE "${PIP_UI_DIR}/face.c")\n'
-    '    target_include_directories(${COMPONENT_LIB} PRIVATE "${PIP_UI_DIR}")\n'
+    '    target_sources(${COMPONENT_LIB} PRIVATE "${PIP_UI_DIR}/face.c"\n'
+    '        "${CMAKE_CURRENT_LIST_DIR}/../../../../../firmware/muse-overlay/pip_muse_bridge.c")\n'
+    '    target_include_directories(${COMPONENT_LIB} PRIVATE "${PIP_UI_DIR}"\n'
+    '        "${CMAKE_CURRENT_LIST_DIR}/../../../../../firmware/muse-overlay")\n'
     '    set_source_files_properties("${PIP_UI_DIR}/face.c" PROPERTIES\n'
     '        COMPILE_OPTIONS "-fno-math-errno;-O2")\n'
     'endif()\n')
 header = muse / "components" / "muse" / "muse_pixel.h"
 replace_once(header, "#define MUSE_PX_W 64", "#define MUSE_PX_W 128")
 replace_once(header, "#define MUSE_PX_H 64", "#define MUSE_PX_H 128")
-print("Overlay Muse + Pip aplicado.")
+state = muse / "components" / "muse" / "muse_state.c"
+replace_once(state, '#include "muse_state.h"\n', '#include "muse_state.h"\n#include "pip_muse_bridge.h"\n')
+replace_once(state, '    s_mode = mode;\n', '    s_mode = mode;\n    pip_muse_bridge_on_mode(mode);\n')
+replace_once(state, 'muse_mode_t muse_state_mode(float *secs_in_mode)\n{\n', 'muse_mode_t muse_state_mode(float *secs_in_mode)\n{\n    pip_muse_bridge_tick();\n')
+ui = muse / "components" / "muse" / "muse_ui.c"
+replace_once(ui, '#include "muse_state.h"\n', '#include "muse_state.h"\n#include "pip_muse_bridge.h"\n')
+replace_once(ui, '        muse_state_make_happy();\n', '        muse_state_make_happy();\n        pip_muse_bridge_on_touch();\n')
+print("Overlay Muse + Pip aplicado (voz + toque + personalidade).")
 PY
