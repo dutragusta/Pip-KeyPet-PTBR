@@ -35,3 +35,27 @@ jobs:
               -DSDKCONFIG=build-pip/sdkconfig \
               -DSDKCONFIG_DEFAULTS="sdkconfig.defaults;devices/sdkconfig.muse;devices/sdkconfig.muse-waveshare-s3-175c" \
               build
+
+  waveshare-s3-175c-realtime:
+    name: ESP-IDF 6.0.3 · Waveshare S3 1.75C · voz em tempo real
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout with upstream sources
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Apply Pip overlay to Muse SDK
+        run: sh firmware/scripts/apply_muse_overlay.sh
+      - name: Build experimental realtime voice firmware
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v6.0.3
+          target: esp32s3
+          path: vendor/muse-gadget-sdk/esp32
+          command: |
+            . "$IDF_PATH/export.sh" > /dev/null
+            idf.py -B build-pip-realtime -DIDF_TARGET=esp32s3 \
+              -DSDKCONFIG=build-pip-realtime/sdkconfig \
+              -DSDKCONFIG_DEFAULTS="sdkconfig.defaults;devices/sdkconfig.muse;devices/sdkconfig.muse-waveshare-s3-175c;../../../firmware/sdkconfig.pip-realtime" \
+              build
