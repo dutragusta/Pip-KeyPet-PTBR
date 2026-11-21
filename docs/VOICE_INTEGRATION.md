@@ -1,44 +1,35 @@
-# Voz e IA: caminhos de integração
+# Voz e IA: integração e validação
 
-## O que já vem do Muse
+## O que o Muse fornece
+O SDK Muse inclui suporte à placa Waveshare ESP32-S3-Touch-AMOLED-1.75C, captura de áudio, sessão com o serviço, tela de captions e gestão de conexão. A ponte Pip reage a eventos da sessão, sem duplicar hardware ou eventos por fragmentos de texto.
 
-A Waveshare ESP32-S3-Touch-AMOLED-1.75C já é suportada pelo Muse SDK. A base fornece captura de áudio, conexão à sessão do Muse, tela para captions e gerenciamento de conexão. O Pip recebe os estados do dispositivo e os transforma em eventos de personalidade.
+## Perfis de voz
 
-## Dois modos diferentes
+### Voice notes (perfil padrão)
+- Pressionar e segurar grava uma mensagem; soltar envia.
+- Resposta textual pode aparecer como legenda.
+- O modo de nota de voz não é conversa contínua.
+- A reprodução de resposta nesse caminho pode exigir integração TTS, conforme o fluxo upstream.
 
-### 1. Voice notes (perfil padrão)
+### Realtime voice (experimental)
+- Um toque inicia a chamada e outro encerra.
+- Pressionar e segurar mantém o comportamento de voice note.
+- O perfil experimental está em `firmware/sdkconfig.pip-realtime`.
+- A compilação deste perfil passou na CI, mas o funcionamento depende do serviço/VM e da conta.
+- A Waveshare 1.75C não tem AEC de hardware confirmada neste projeto; o caminho previsto é half-duplex, alternando microfone e alto-falante.
 
-É o modo habilitado no primeiro build:
+## Estado de integração
+Os hooks de transcrição e resposta estão ligados à ponte de personalidade e limitados a uma ocorrência por turno. O modo speaking altera a expressão visual, sem pontuação adicional. Os perfis padrão e realtime voice já foram compilados em CI. Ainda não foram testados em dispositivo real nem com conta/VM.
 
-- pressionar e segurar o botão de fala grava uma mensagem;
-- ao soltar, o áudio é enviado ao serviço;
-- a resposta textual aparece como legenda na tela;
-- o modo de voice note não é uma conversa contínua e o código upstream indica que a reprodução de respostas exige uma integração TTS própria.
+## Token de dispositivo
+O build alerta que `CONFIG_GADGET_SDK_TOKEN` não está configurado. O token deve ser gerado/obtido pelo fluxo oficial em [gadget.muse.ai](https://gadget.muse.ai/) (verifique o endereço oficial vigente antes de autenticar) e fornecido somente localmente ao build. Nunca comitar token, segredo, arquivo de configuração pessoal ou credencial em Git.
 
-Esse perfil serve para validar a base e a captura/envio de áudio, mas não entrega sozinho a experiência de conversa natural contínua.
+## Próximas validações
+1. Configurar token localmente, sem versioná-lo.
+2. Confirmar pareamento e sessão com serviço/VM.
+3. Testar voice note e realtime voice separadamente.
+4. Confirmar captions, resposta de voz, transcrição e troca de modos.
+5. Verificar half-duplex e comportamento de botão/toque.
+6. Depois da chegada da placa, validar áudio e microfone em hardware.
 
-### 2. Chamadas em tempo real (experimental)
-
-O Muse SDK oferece `CONFIG_MUSE_REALTIME_VOICE`:
-
-- um toque no botão de fala inicia a chamada;
-- outro toque encerra;
-- manter o botão pressionado continua sendo voice note;
-- a chamada depende de a VM/serviço da conta aceitar chamadas desse dispositivo;
-- na Waveshare 1.75C, sem AEC de hardware declarado pelo board, o áudio opera em half-duplex: o microfone fecha enquanto o alto-falante reproduz a fala.
-
-O perfil de compilação experimental está em `firmware/sdkconfig.pip-realtime` e já compilou com sucesso em CI, separadamente do perfil padrão. Isso valida o firmware, mas não comprova que a conta/VM aceite a chamada; isso exige teste de execução.
-
-## Credenciais
-
-A compilação atual alerta que não há `CONFIG_GADGET_SDK_TOKEN`. O token de dispositivo precisa ser obtido pelo fluxo oficial em gadgets.muse.ai e configurado fora do repositório. Não colocar tokens, senhas ou chaves em arquivos versionados.
-
-## Próximos passos técnicos
-
-1. Compilar o perfil experimental de chamadas em tempo real.
-2. Conferir o comportamento da sessão e os estados de voz que chegam à ponte Pip.
-3. Decidir como o conteúdo da conversa afeta humor, carinho e expressões sem gerar eventos repetidos a cada frame.
-4. Adicionar gestos do acelerômetro como eventos de sacudir/pegar o Pip.
-5. Só então preparar uma imagem de firmware e validar áudio, touch, sensor e persistência no hardware.
-
-Nenhuma validação física foi feita até agora.
+**Build verde significa que o código compila. Não comprova conexão, conversa, qualidade de áudio ou funcionamento físico.**
