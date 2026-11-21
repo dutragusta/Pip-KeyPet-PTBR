@@ -16,7 +16,7 @@ Muse é responsável por hardware, display, touch, LVGL, áudio, Wi-Fi, Bluetoot
 - Primeira transcrição válida do usuário por turno gera `PIP_SEEN`, sem duplicar em transcrições parciais.
 - Primeira resposta textual por turno gera um evento de carinho, sem repetir em fragmentos.
 - Áudio de fala controla apenas animação; não duplica recompensas.
-- Erro de sessão, toque no rosto, lift-wake e gesto de sacudir estão conectados à ponte.
+- Erro de sessão, toque na área do avatar, lift-wake e gesto de sacudir estão conectados à ponte.
 - O gesto de sacudir usa um limiar inicial de quatro impulsos em 900 ms, ainda não calibrado fisicamente.
 - Humor, valência, energia e sono influenciam expressões.
 - Atualização de necessidades ocorre no máximo uma vez por minuto.
@@ -34,4 +34,6 @@ Consulte `docs/REMAINING_WORK.md` para o roteiro de voz/IA, credenciais, coexist
 
 ## Identidade visual: somente os olhos do Pip
 
-O avatar integrado deve renderizar **apenas os dois olhos originais do Pip**, usando o renderizador upstream `ui/face.c` para formato, pupilas, pálpebras, olhar e animações. Elementos faciais externos aos olhos (bochechas/blush) ficam desativados. Não desenhar boca, nariz nem rosto completo; o avatar padrão do Muse não deve substituir os olhos do Pip. Efeitos dentro dos olhos, como pupilas em coração, permanecem permitidos quando usados como expressão.
+O avatar integrado deve renderizar **apenas os dois olhos do Pip**, usando o renderizador upstream `ui/face.c` como motor gráfico. Blush/bochechas estão desativados. Não desenhar boca, nariz nem rosto completo; o avatar padrão do Muse não deve substituir os olhos do Pip. Efeitos dentro dos olhos, como pupilas em coração, permanecem permitidos quando usados como expressão.
+
+**Fidelidade visual ainda em andamento:** o port atual reutiliza `face.c`, mas `muse_pixel.c` ainda usa dimensões, posições e uma tradução simplificada de humores próprias. O comportamento original completo está em `ui/pip.c` (tabela de formas por humor, assimetria, olhar, piscadas variáveis, tremor e movimento). A próxima etapa da auditoria é portar essa lógica para o display 128×128 mantendo somente os olhos. Portanto, ainda não declarar equivalência visual com o Pip original.
