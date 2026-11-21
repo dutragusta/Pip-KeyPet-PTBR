@@ -37,7 +37,7 @@ static void apply_pip_mood(face_t *face, int mood, float t)
     switch (mood) {
     case PIP_NEUTRAL: break;
     case PIP_HAPPY: case PIP_CHEEKY: case PIP_CONTENT: case PIP_COMFY:
-        a->smile = b->smile = 0.52f; face->blush = 0.20f; break;
+        a->smile = b->smile = 0.52f; face->blush = 0.0f; break;
     case PIP_SAD: case PIP_DESPONDENT: case PIP_GLOOMY: case PIP_LONELY: case PIP_HURT:
         a->lid = b->lid = 0.22f; a->look_y = b->look_y = 0.20f;
         a->wet = b->wet = mood == PIP_DESPONDENT || mood == PIP_LONELY ? 0.75f : 0.35f; break;
@@ -61,7 +61,7 @@ static void apply_pip_mood(face_t *face, int mood, float t)
         a->lid = 0.06f; b->lid = 0.24f; a->look_x = b->look_x = 0.28f;
         a->look_y = b->look_y = -0.18f; break;
     case PIP_LOVE:
-        a->heart = b->heart = 1.0f; face->blush = 0.75f;
+        a->heart = b->heart = 1.0f; face->blush = 0.0f;
         a->smile = b->smile = 0.34f; break;
     case PIP_DIZZY:
         a->spiral = b->spiral = 1.0f; a->wobble = b->wobble = 0.8f; break;
@@ -88,7 +88,7 @@ static void apply_pip_mood(face_t *face, int mood, float t)
         a->look_x = b->look_x = -0.18f; break;
     case PIP_SHY:
         a->look_x = b->look_x = -0.28f; a->lid = b->lid = 0.18f;
-        face->blush = 0.82f; break;
+        face->blush = 0.0f; break;
     case PIP_SMUG:
         a->lid = 0.30f; b->lid = 0.08f; a->smile = b->smile = 0.42f; break;
     case PIP_BORED:
@@ -174,9 +174,9 @@ void muse_pixel_render(const muse_pose_t *pose) {
     case PIP_SURPRISED:
         w = 43.0f; h = 57.0f; lid = 0.0f; pw = 0.24f; ph = 0.26f; smile = 0.0f; break;
     case PIP_LOVE:
-        heart = 1.0f; smile = 0.28f; reaction_blush = 0.65f; break;
+        heart = 1.0f; smile = 0.28f; reaction_blush = 0.0f; break;
     case PIP_HAPPY:
-        smile = fmaxf(smile, 0.52f); reaction_blush = 0.30f; break;
+        smile = fmaxf(smile, 0.52f); reaction_blush = 0.0f; break;
     case PIP_NO:
         lid = fmaxf(lid, 0.20f); tilt = 0.22f; smile = 0.0f; break;
     case PIP_NAUSEOUS:
@@ -206,11 +206,11 @@ void muse_pixel_render(const muse_pose_t *pose) {
     case PIP_LOVE:
         s_face.eye[0].heart = s_face.eye[1].heart = 1.0f;
         s_face.eye[0].smile = s_face.eye[1].smile = 0.34f;
-        s_face.blush = 0.75f;
+        s_face.blush = 0.0f;
         break;
     case PIP_HAPPY:
         s_face.eye[0].smile = s_face.eye[1].smile = 0.52f;
-        s_face.blush = fmaxf(s_face.blush, 0.30f);
+        s_face.blush = 0.0f;
         break;
     case PIP_NO:
         s_face.eye[0].tilt = 0.22f; s_face.eye[1].tilt = -0.22f;
