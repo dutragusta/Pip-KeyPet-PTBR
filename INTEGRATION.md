@@ -38,4 +38,4 @@ O adaptador usa um namespace NVS próprio (pip_pet), separado das configuraçõe
 - A CI verifica os patches e executa testes portáteis do motor de personalidade.
 - Ainda falta compilar o firmware completo com ESP-IDF 6.0.3 e validar a integração no hardware.
 
-**Este projeto ainda não é um firmware pronto para gravação.**
+**Este projeto ainda não é um firmware pronto para gravação.** O build aprovado é uma validação de compilação; não comprova áudio, tela, touch, sensor ou persistência em uma placa física.
