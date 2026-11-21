@@ -27,7 +27,7 @@ O Muse SDK oferece `CONFIG_MUSE_REALTIME_VOICE`:
 - a chamada depende de a VM/serviço da conta aceitar chamadas desse dispositivo;
 - na Waveshare 1.75C, sem AEC de hardware declarado pelo board, o áudio opera em half-duplex: o microfone fecha enquanto o alto-falante reproduz a fala.
 
-O perfil de compilação experimental está em `firmware/sdkconfig.pip-realtime`. Ele será compilado separadamente do perfil padrão. Compilar essa opção não comprova que a conta/VM aceite a chamada; isso exige teste de execução.
+O perfil de compilação experimental está em `firmware/sdkconfig.pip-realtime` e já compilou com sucesso em CI, separadamente do perfil padrão. Isso valida o firmware, mas não comprova que a conta/VM aceite a chamada; isso exige teste de execução.
 
 ## Credenciais
 
