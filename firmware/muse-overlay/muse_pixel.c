@@ -1,11 +1,12 @@
 #include "muse_pixel.h"
 #include "face.h"
+#include "esp_attr.h"
 #include <math.h>
 #include <string.h>
 #define FRAME_W MUSE_PX_W
 #define FRAME_H MUSE_PX_H
 #define MAP_MAX 512
-static uint16_t s_frame[FRAME_W * FRAME_H];
+EXT_RAM_BSS_ATTR static uint16_t s_frame[FRAME_W * FRAME_H];
 static face_t s_face;
 static uint8_t s_map[MAP_MAX];
 static int s_size;
