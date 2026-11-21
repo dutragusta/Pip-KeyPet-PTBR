@@ -1,0 +1,4 @@
+# Habilita chamadas de voz em tempo real do Muse (experimental).
+# O serviço/VM associado à conta precisa aceitar chamadas desse dispositivo.
+# A Waveshare 1.75C não declara AEC de hardware: o caminho será half-duplex.
+CONFIG_MUSE_REALTIME_VOICE=y
