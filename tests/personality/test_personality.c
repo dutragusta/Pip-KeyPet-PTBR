@@ -35,6 +35,12 @@ int main(void)
     assert(reaction == PIP_SURPRISED);
     assert(!pip.state.asleep);
 
+    /* A detected shake nudges fun up and increases annoyance, as in upstream Pip. */
+    float fun_before_shake = pip.state.fun;
+    (void)pip_personality_event(&pip, PIP_PERSONALITY_SHAKE, start + 4);
+    assert(pip.state.fun > fun_before_shake);
+    assert(pip.state.annoy > 0.0f);
+
     uint8_t snapshot[sizeof(pet_t)];
     memset(snapshot, 0, sizeof(snapshot));
     assert(pip_personality_state_size() == sizeof(pet_t));
