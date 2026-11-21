@@ -1,4 +1,5 @@
 #include "pip_personality.h"
+#include "moods.h"
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -18,8 +19,9 @@ int main(void)
     assert(status.food > 0.89f && status.food <= 0.91f);
     assert(status.energy > 0.89f && status.energy <= 0.91f);
 
+    /* The upstream pet starts at 90% food, so an extra meal is a little too much. */
     int reaction = pip_personality_event(&pip, PIP_PERSONALITY_FEED, start + 1);
-    assert(reaction == PIP_CONTENT);
+    assert(reaction == PIP_NAUSEOUS);
     reaction = pip_personality_event(&pip, PIP_PERSONALITY_PLAY, start + 2);
     assert(reaction == PIP_HAPPY);
 
@@ -38,7 +40,7 @@ int main(void)
     assert(status.food == pip.state.food);
     assert(status.energy == pip.state.energy);
 
-    snapshot[0] = 0;
+    memset(snapshot, 0, sizeof(uint32_t));
     assert(!pip_personality_restore(&restored, snapshot, sizeof(snapshot), -180));
     assert(!pip_personality_restore(&restored, snapshot, sizeof(snapshot) - 1, -180));
     puts("Pip personality tests passed.");
