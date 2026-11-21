@@ -2,7 +2,7 @@
 
 Interface web do **Pip-KeyPet** traduzida para português brasileiro (PT-BR), publicada pelo GitHub Pages.
 
-O Pip é um bichinho virtual em um chaveiro com tela, baseado na placa **Waveshare ESP32-S3-Touch-AMOLED-1.75C**. A interface permite conectar o dispositivo, configurar recursos e atualizar o firmware pelo navegador.
+O Pip é um Tamagotchi virtual em um chaveiro com tela, baseado na placa **Waveshare ESP32-S3-Touch-AMOLED-1.75C**. A interface permite conectar o dispositivo, configurar recursos e atualizar o firmware pelo navegador.
 
 ## Acessar a interface
 
