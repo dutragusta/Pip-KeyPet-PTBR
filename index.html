@@ -254,8 +254,7 @@ details p{margin:8px 0 0}
           <details class="muted"><summary>Problemas?</summary>
             <p>O chaveiro não aparece na lista: experimente outro cabo ou porta USB. No Linux, execute uma vez
               <code>sudo usermod -aG dialout $USER</code> e entre novamente na sessão.</p>
-            <p>Firmware не начинается: зажми нижнюю кнопку брелока, коротко нажми верхнюю и отпусти нижнюю. Брелок войдёт
-              в режим прошивки; снова нажми «Gravar».</p></details>
+            <p>A gravação não começa: mantenha pressionado o botão inferior do chaveiro, pressione rapidamente o botão superior e solte o botão inferior. O chaveiro entrará no modo de gravação; clique em “Gravar” novamente.</p></details>
         </div>
       </div>
     </section>
@@ -273,12 +272,12 @@ details p{margin:8px 0 0}
         </div>
         <div class="card">
           <h3>Modo desenvolvedor</h3>
-          <p class="muted">Каркас глаз, взгляд, области перерисовки и цифры поверх Pipа, прямо на экране брелока.</p>
+          <p class="muted">Estrutura dos olhos, direção do olhar, áreas redesenhadas e informações sobrepostas diretamente na tela do Pip.</p>
           <div class="row"><button id="devOn">Ativar</button><button id="devOff">Desativar</button></div>
         </div>
         <div class="card">
           <h3>Registro da bateria</h3>
-          <p class="muted">Pip каждую минуту пишет заряд и напряжение в свою память (~17 часов). Зарядить до 100%, отключить кабель, дождаться, пока сядет, подключить и скачать.</p>
+          <p class="muted">O Pip registra a carga e a tensão na memória a cada minuto (cerca de 17 horas). Carregue até 100%, desconecte o cabo, aguarde o descarregamento, conecte novamente e baixe os dados.</p>
           <div class="row"><button id="batGet">Baixar CSV</button><button id="batClear">Limpar</button><span class="saved" id="batState"></span></div>
         </div>
       </div>
@@ -293,14 +292,14 @@ const FEATS = [
   [0, 'Sacudir', 'ao sacudir, ele ficará tonto'],
   [1, 'Soprar', 'ao soprar no microfone, ele fechará os olhos'],
   [2, 'Dormir com a tela para baixo', 'ao colocar a tela para baixo, ele dormirá e apagará a tela'],
-  [3, 'Sons', 'Pip пищит, мурчит и ворчит'],
+  [3, 'Sons', 'o Pip emite bipes, ronrona e resmunga'],
   [4, 'Carregar = alimentar', 'fica feliz e satisfeito enquanto carrega'],
   [6, 'Sons altos', 'um estalo próximo o assusta'],
 ];
 if (!('serial' in navigator)) $('nobrowser').hidden = false;
 if (!('bluetooth' in navigator)) $('ble').hidden = true;
 const fw = window.PIP_FIRMWARE;
-$('fwinfo').textContent = fw ? `В панели прошивка ${fw.version} от ${fw.built}.` : 'Файл прошивки не найден (docs/https://novikovvisuals.github.io/Pip-KeyPet/firmware/firmware.js).';
+$('fwinfo').textContent = fw ? `Firmware ${fw.version} do dia ${fw.built} disponível no painel.` : 'Arquivo de firmware não encontrado. O painel utiliza o arquivo oficial do projeto original.';
 
 /* ---------- the link: a USB serial port (Web Serial) or Bluetooth ---------- */
 let port = null, reader = null, ble = null, bleq = Promise.resolve(), alive = 0, cfg = null;
@@ -390,12 +389,12 @@ $('ble').onclick = async () => {
     send('config');
   } catch (e) { if (e.name !== 'NotFoundError') state('Bluetooth: ' + e.message, false); }
 };
-setInterval(() => { if ((port || ble) && Date.now() - alive > 4000 && alive) state('Pip не отвечает — переподключи', false); }, 1000);
+setInterval(() => { if ((port || ble) && Date.now() - alive > 4000 && alive) state('O Pip não responde. Reconecte o dispositivo.', false); }, 1000);
 
 /* ---------- settings ---------- */
 for (let i = 0; i < 4; i++) $('links').insertAdjacentHTML('beforeend',
   `<div class="link"><span class="n">${i + 1}</span><input type="text" placeholder="Telegram" maxlength="18" id="ls${i}" aria-label="Nome ${i + 1}">` +
-  `<input type="text" placeholder="@ник" maxlength="46" id="lh${i}" aria-label="Descrição ${i + 1}">` +
+  `<input type="text" placeholder="@usuario" maxlength="46" id="lh${i}" aria-label="Descrição ${i + 1}">` +
   `<input type="url" placeholder="https://t.me/ник" maxlength="198" id="lu${i}" aria-label="Link ${i + 1}"></div>`);
 for (const [f, name, note] of FEATS) $('feats').insertAdjacentHTML('beforeend',
   `<div class="toggle"><div>${name}<small>${note}</small></div><label class="switch"><input type="checkbox" id="f${f}" aria-label="${name}"><span></span></label></div>`);
@@ -451,10 +450,10 @@ $('flash').onclick = async () => {
   try {
     $('flashState').textContent = 'Preparando...';
     const {ESPLoader, Transport} = await import('https://unpkg.com/esptool-js@0.6.1/bundle.js');
-    /* ask Pip to show "Обновление" first: the screen keeps that frame while the chip is in the flasher.
+    /* ask Pip to show "Atualização" first: the screen keeps that frame while the chip is in the flasher.
        Firmware that is not Pip's (a factory one, an empty chip) never answers: then just go on after a few seconds. */
     if (!port) await openPort(await navigator.serial.requestPort({filters: [{usbVendorId: 0x303a}]}));
-    $('flashState').textContent = 'Связываюсь с Pipом...';
+    $('flashState').textContent = 'Conectando ao Pip...';
     for (let t = 0; !cfg && t < 60; t++) await new Promise(r => setTimeout(r, 100));
     if (cfg) { await send('update'); await new Promise(r => setTimeout(r, 600)); }
     const p = await closePort();
@@ -482,10 +481,10 @@ $('flash').onclick = async () => {
     await transport.setRTS(false);
     await transport.disconnect();
     $('prog').style.width = '100%';
-    $('flashState').textContent = 'Готово! Pip перезагружается. Через несколько секунд нажми «Conectar via cabo», чтобы настроить его.';
+    $('flashState').textContent = 'Concluído! O Pip está reiniciando. Aguarde alguns segundos e clique em “Conectar via cabo” para configurá-lo.';
     state('Não conectado', false);
   } catch (e) {
-    $('flashState').textContent = 'Não foi possível: ' + (e.message || e) + '. Загляни в «Problemas?» ниже.';
+    $('flashState').textContent = 'Não foi possível: ' + (e.message || e) + '. Consulte a seção “Problemas?” abaixo.';
   }
   $('flash').disabled = false;
 };
