@@ -1,68 +1,71 @@
-# Pip-KeyPet PT-BR 🇧🇷
+# Pip-KeyPet PT-BR + Muse Gadget 🤖
 
-Interface web do **Pip-KeyPet** traduzida para português brasileiro (PT-BR), publicada pelo GitHub Pages.
+Projeto de integração do **Pip-KeyPet** com o **Muse Gadget SDK**, com foco em transformar o dispositivo em um **Tamagotchi virtual com IA**, mantendo o rosto expressivo e a personalidade do Pip.
 
-O Pip é um Tamagotchi virtual em um chaveiro com tela, baseado na placa **Waveshare ESP32-S3-Touch-AMOLED-1.75C**. A interface permite conectar o dispositivo, configurar recursos e atualizar o firmware pelo navegador.
+A proposta combina a interface e o ciclo de vida do bichinho do Pip com a infraestrutura do Muse para firmware, tela, áudio, conectividade e interação com serviços de IA.
 
-## Acessar a interface
+## Visão do projeto
 
-🌐 **[Abrir o painel Pip-KeyPet PT-BR](https://dutragusta.github.io/Pip-KeyPet-PTBR/)**
+- **Pip:** identidade visual, expressões, humor, necessidades, animações e comportamento de Tamagotchi.
+- **Muse Gadget SDK:** base de firmware, integração com o hardware, interface LVGL, áudio e conectividade.
+- **Objetivo:** um companheiro portátil com rosto animado, personalidade persistente e interação por voz com IA.
 
-A interface foi adaptada para português brasileiro, preservando o layout e os identificadores técnicos necessários ao funcionamento do painel.
+## Imagens de referência
 
-## Requisitos
+As imagens abaixo vêm da documentação visual do projeto original Pip-KeyPet e servem como referência para preservar as expressões e a identidade do personagem durante a integração.
 
-- Chaveiro compatível com **Waveshare ESP32-S3-Touch-AMOLED-1.75C**.
-- Cabo USB-C com suporte a transferência de dados.
-- Computador com **Google Chrome** ou **Microsoft Edge** atualizado.
-- Bluetooth habilitado quando utilizar a conexão sem fio.
+| Expressões do Pip | Reações do Pip |
+|---|---|
+| ![Expressões base do Pip](docs/references/pip-expressoes-base.png) | ![Expressões e reações do Pip](docs/references/pip-expressoes-reacao.png) |
 
-> O acesso às funções USB e Bluetooth depende do suporte do navegador e das permissões concedidas pelo usuário. Safari e Firefox podem não oferecer as APIs necessárias.
+| Sim e não | Painel de expressões |
+|---|---|
+| ![Expressões de sim e não](docs/references/pip-expressoes-sim-nao.png) | ![Painel de expressões do Pip](docs/references/pip-painel-expressoes.png) |
 
-## Como usar
+Créditos das imagens: [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet). Os arquivos foram adicionados como referências visuais, não como uma nova autoria do personagem.
 
-1. Abra o [painel PT-BR](https://dutragusta.github.io/Pip-KeyPet-PTBR/) no Chrome ou Edge.
-2. Conecte o chaveiro ao computador usando um cabo USB-C de dados.
-3. Clique em **Conectar via cabo** e autorize o acesso ao dispositivo.
-4. Acesse **Configurações** para ajustar as opções disponíveis.
-5. Para atualizar o dispositivo, abra **Gravar / atualizar**, clique em **Gravar** e siga as instruções exibidas na tela.
+## Hardware-alvo
 
-A interface também apresenta opções de conexão Bluetooth, configurações do crachá, links para QR Code, economia de energia, notificações e ferramentas de depuração.
+**Waveshare ESP32-S3-Touch-AMOLED-1.75C**
 
-## Recursos da interface
+O Muse SDK já possui suporte para esta família de placa. A integração será feita sobre a implementação de hardware do Muse, evitando inicializações duplicadas de tela, áudio, Bluetooth ou outros periféricos.
 
-- Interface traduzida para português brasileiro.
-- Conexão com o chaveiro por USB e Bluetooth, conforme suporte do navegador e do dispositivo.
-- Configuração do crachá e dos links de QR Code.
-- Ajustes de tela, brilho, tema e economia de energia.
-- Preferências para notificações do iPhone.
-- Gravação e atualização do firmware pelo navegador.
-- Acesso à interface de depuração do projeto original.
+## Arquitetura planejada
 
-## Observações importantes
+1. O Muse inicializa e gerencia o hardware e os serviços do dispositivo.
+2. O componente de personalidade do Pip mantém fome, energia, diversão, carinho, humor e reações.
+3. A interface do Pip é adaptada para LVGL e passa a renderizar o rosto e suas animações na tela do Muse.
+4. Os eventos de voz e IA alimentam a personalidade do Pip, que responde com expressões e comportamentos próprios.
 
-- Este repositório contém a **interface web traduzida**, não uma cópia completa do firmware e de todos os arquivos do projeto original.
-- O painel carrega o arquivo de firmware publicado pelo projeto original: [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet).
-- A página de depuração ainda utiliza a versão original, que pode estar em outro idioma.
-- Para obter instruções completas de compilação, arquivos do firmware e demais componentes, consulte o [repositório original](https://github.com/NovikovVisuals/Pip-KeyPet).
-- A gravação de firmware altera o software do dispositivo. Não desconecte o chaveiro durante o processo.
+## Estado atual
 
-## Desenvolvimento e publicação
+<badge>Em desenvolvimento</badge>
 
-O site é publicado automaticamente pelo GitHub Actions sempre que há alterações na branch `main`.
+- [x] Repositórios originais conectados como submódulos.
+- [x] Estrutura inicial de integração criada.
+- [x] Componente inicial para a lógica de personalidade do Pip.
+- [x] Referências visuais do personagem adicionadas.
+- [ ] Portar o rosto e as animações para LVGL.
+- [ ] Integrar os eventos de voz e IA à personalidade.
+- [ ] Resolver e validar a compatibilidade entre as versões do ESP-IDF.
+- [ ] Configurar compilação automatizada.
+- [ ] Validar o firmware no hardware.
 
-- Arquivo principal da interface: [`index.html`](index.html)
-- Workflow do GitHub Pages: [`.github/workflows/pages.yml`](.github/workflows/pages.yml)
-- Site publicado: [dutragusta.github.io/Pip-KeyPet-PTBR](https://dutragusta.github.io/Pip-KeyPet-PTBR/)
+**Importante:** esta branch é uma base de desenvolvimento. O firmware integrado ainda não foi compilado nem validado em dispositivo e não deve ser gravado como se fosse uma versão pronta.
 
-## Créditos e licença
+## Repositórios de origem
 
-Este projeto é uma tradução/adaptação da interface do [Pip-KeyPet, de NovikovVisuals](https://github.com/NovikovVisuals/Pip-KeyPet).
+- [Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet)
+- [Muse Gadget SDK](https://github.com/facebookincubator/muse-gadget-sdk)
 
-O projeto original informa ser distribuído sob a licença **MIT**. Consulte o repositório original e seus avisos de licença para os termos aplicáveis ao código e aos componentes de terceiros. Esta adaptação não reivindica a autoria do projeto original.
+O código original é mantido nos respectivos repositórios e referenciado neste projeto por submódulos, com commits fixados para tornar a integração reproduzível.
 
----
+## Interface web em português
 
-**Tradução:** português brasileiro (PT-BR)  
-**Projeto original:** [NovikovVisuals/Pip-KeyPet](https://github.com/NovikovVisuals/Pip-KeyPet)  
-**Versão adaptada:** [dutragusta/Pip-KeyPet-PTBR](https://github.com/dutragusta/Pip-KeyPet-PTBR)
+A versão traduzida do painel web continua disponível em:
+
+**[Abrir Pip-KeyPet PT-BR](https://dutragusta.github.io/Pip-KeyPet-PTBR/)**
+
+## Licenças e créditos
+
+Este projeto integra componentes de terceiros. Consulte as licenças e avisos de cada repositório de origem antes de redistribuir binários ou versões derivadas. As imagens de referência permanecem creditadas ao projeto original Pip-KeyPet.
