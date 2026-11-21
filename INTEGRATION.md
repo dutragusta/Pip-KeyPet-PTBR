@@ -1,45 +1,33 @@
 # Integração Muse + Pip
 
-Esta branch prepara a integração do Pip-KeyPet com o Muse Gadget SDK para a placa **Waveshare ESP32-S3-Touch-AMOLED-1.75C**.
+Esta branch prepara a integração do Pip-KeyPet com o Muse Gadget SDK para a **Waveshare ESP32-S3-Touch-AMOLED-1.75C**.
 
 ## Fontes fixadas
-
 - `vendor/muse-gadget-sdk`: `facebookincubator/muse-gadget-sdk`, commit `8d32b7fa8d6d9b600ea65fc956e9418f5c778a28` (Apache-2.0).
 - `vendor/pip-keypet`: `NovikovVisuals/Pip-KeyPet`, commit `b505d9393bd9b8c0b076c0ef7a4d46921db69071` (MIT).
 
-Os dois projetos são mantidos como submódulos para preservar a origem, o histórico e as licenças. A interface web PT-BR existente permanece na raiz do repositório e não é substituída.
+Os projetos permanecem como submódulos para preservar origem, histórico e licenças. A interface web PT-BR na raiz continua separada do firmware.
 
 ## Arquitetura
+Muse é responsável por hardware, display, touch, LVGL, áudio, Wi-Fi, Bluetooth e sessões de voz. Pip fornece personalidade, necessidades, humor, eventos e renderizador de expressões. Não há inicialização duplicada de periféricos nem cópia do entry point upstream.
 
-O Muse SDK continua responsável por hardware, display, touch, LVGL, áudio, Wi-Fi, Bluetooth e sessão de voz. O Pip fornece o personagem, as necessidades, o humor, os eventos e as animações.
+## Integração de runtime
+- Estados do Muse alteram o estado visual do avatar.
+- Primeira transcrição válida do usuário por turno gera `PIP_SEEN`, sem duplicar em transcrições parciais.
+- Primeira resposta textual por turno gera um evento de carinho, sem repetir em fragmentos.
+- Áudio de fala controla apenas animação; não duplica recompensas.
+- Erro de sessão, toque no rosto, lift-wake e gesto de sacudir estão conectados à ponte.
+- O gesto de sacudir usa um limiar inicial de quatro impulsos em 900 ms, ainda não calibrado fisicamente.
+- Humor, valência, energia e sono influenciam expressões.
+- Atualização de necessidades ocorre no máximo uma vez por minuto.
+- Persistência em NVS usa namespace separado (`pip_pet`) e snapshot versionado, validado antes de restauração.
 
-O firmware não copia o entry point do Pip e não inicializa periféricos duplicados.
+O relógio do pet depende de sincronização de relógio de parede plausível. Fuso configurado: UTC-3, São Paulo.
 
-## Integração de runtime adicionada
+## Validação automatizada
+A CI já aprovou testes portáteis do motor, verificações de overlay e builds dos perfis padrão e voz em tempo real para ESP32-S3/Waveshare 1.75C, usando ESP-IDF 6.0.3. Isso é validação de compilação, não teste de funcionamento físico.
 
-O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalidade aos pontos existentes do Muse:
+## Pendências prioritárias fora da interface Tamagotchi
+Consulte `docs/REMAINING_WORK.md` para o roteiro de voz/IA, credenciais, coexistência BLE, testes de hardware e preparação de release.
 
-- `MUSE_MODE_LISTENING`: altera a expressão visual de escuta, sem disparar um evento de Tamagotchi (gravar voz não deve ser confundido com conquistar um novo recorde);
-- primeira transcrição válida da fala do usuário em cada turno: evento `PIP_SEEN`, processado uma única vez mesmo que a transcrição parcial seja atualizada várias vezes;
-- primeira resposta textual do Muse em cada turno: evento de carinho leve (`PIP_STROKE`), também limitado a uma vez por conversa;
-- `MUSE_MODE_SPEAKING` controla apenas a expressão visual; não concede pontos extras, evitando duplicar a interação quando o áudio começa;
-- mudança para `MUSE_MODE_ERROR`: evento de susto;
-- toque no rosto do avatar: evento de carinho;
-- levantar o dispositivo, quando o recurso de lift-wake do Muse estiver habilitado: evento `PIP_WAKE` para acordar o Tamagotchi;
-- sacudir o dispositivo: quatro variações fortes de aceleração em uma janela de 900 ms disparam `PIP_SHAKE`; o limiar é inicial e deverá ser calibrado com dados da placa;
-- humor, valência, energia e sono do Pip influenciam o sorriso, o cansaço e as pálpebras do avatar;
-- consulta do estado visual: atualiza as necessidades no máximo uma vez por minuto.
-
-O relógio do Tamagotchi só começa quando o relógio de parede está sincronizado e apresenta um timestamp plausível. Isso evita que o bichinho envelheça usando apenas o tempo desde que o ESP32 foi ligado. O fuso inicial está definido como UTC-3 (São Paulo).
-
-O adaptador usa um namespace NVS próprio (pip_pet), separado das configurações do Muse. O snapshot contém identificador e versão de esquema, tamanho do payload e passa pela validação de versão/integridade estrutural do motor antes de ser restaurado. O estado é salvo após eventos e atualizações periódicas. Se o registro estiver ausente ou incompatível, o pet é inicializado novamente quando o relógio estiver sincronizado.
-
-## Toolchain e limitações
-
-- Pip original: firmware baseado em ESP-IDF 5.5.
-- Muse SDK fixado: ESP-IDF 6.0.3.
-- O overlay altera somente a cópia de trabalho do submódulo Muse, sem reescrever commits upstream.
-- A CI verifica os patches, executa testes portáteis do motor de personalidade e compila o firmware com ESP-IDF 6.0.3. As alterações mais recentes ainda aguardam os novos resultados da CI.
-- A validação da integração no hardware continua pendente.
-
-**Este projeto ainda não é um firmware pronto para gravação.** O build aprovado é uma validação de compilação; não comprova áudio, tela, touch, sensor ou persistência em uma placa física.
+**Ainda não é firmware pronto para gravação.** Não foram verificados fisicamente áudio, display, touch, sensor, persistência ou pareamento. A configuração do token oficial do dispositivo continua necessária.
