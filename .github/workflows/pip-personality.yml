@@ -24,6 +24,9 @@ jobs:
           test -f vendor/muse-gadget-sdk/esp32/components/muse/avatar/muse_pixel.c
           test -f firmware/muse-overlay/pip_muse_bridge.c
           grep -q 'pip_muse_bridge_status' firmware/muse-overlay/muse_pixel.c
+          grep -q 'PIP_NVS_NAMESPACE "pip_pet"' firmware/muse-overlay/pip_muse_bridge.c
+          grep -q 'nvs_set_blob' firmware/muse-overlay/pip_muse_bridge.c
+          grep -q 'pip_personality_restore' firmware/muse-overlay/pip_muse_bridge.c
           grep -q 'pip_personality' vendor/muse-gadget-sdk/esp32/main/CMakeLists.txt
           grep -q 'pip_muse_bridge_on_mode' vendor/muse-gadget-sdk/esp32/components/muse/muse_state.c
           grep -q 'pip_muse_bridge_on_touch' vendor/muse-gadget-sdk/esp32/components/muse/muse_ui.c
