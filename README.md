@@ -49,14 +49,15 @@ O Muse SDK já possui suporte para esta família de placa. A integração será 
 - [x] Adaptador inicial do renderizador de olhos do Pip para o avatar customizado do Muse (128 × 128).
 - [ ] Integrar todas as animações e expressões do Pip ao LVGL.
 - [ ] Integrar os eventos de voz e IA à personalidade.
-- [ ] Resolver e validar a compatibilidade entre as versões do ESP-IDF.
+- [ ] Validar em CI o perfil experimental de chamadas de voz em tempo real.
+- [x] Resolver a compatibilidade de compilação entre o Pip (ESP-IDF 5.5) e o Muse (ESP-IDF 6.0.3) no perfil padrão.
 - [x] Testes automatizados do motor de personalidade no GitHub Actions.
-- [ ] Compilar o firmware completo Muse + Pip.
+- [x] Compilar o firmware completo Muse + Pip para Waveshare 1.75C (ESP-IDF 6.0.3; build automatizado aprovado).
 - [ ] Validar o firmware no hardware.
 
 Para preparar o checkout local do firmware Muse com o avatar do Pip, execute `sh firmware/scripts/apply_muse_overlay.sh` na raiz do repositório após inicializar os submódulos.
 
-**Importante:** esta branch é uma base de desenvolvimento. O firmware integrado ainda não foi compilado nem validado em dispositivo e não deve ser gravado como se fosse uma versão pronta.
+**Importante:** o perfil padrão do firmware Muse + Pip já compilou em CI para ESP32-S3/Waveshare 1.75C. Isso valida a compilação, não o funcionamento físico. O firmware ainda não foi testado na placa e o build sinaliza que falta configurar o token oficial do dispositivo para pareamento. Não grave como versão pronta.
 
 ## Repositórios de origem
 
