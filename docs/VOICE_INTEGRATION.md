@@ -1,35 +1,32 @@
 # Voz e IA: integração e validação
 
-## O que o Muse fornece
-O SDK Muse inclui suporte à placa Waveshare ESP32-S3-Touch-AMOLED-1.75C, captura de áudio, sessão com o serviço, tela de captions e gestão de conexão. A ponte Pip reage a eventos da sessão, sem duplicar hardware ou eventos por fragmentos de texto.
+## Hardware e suporte upstream
+O Muse SDK contém suporte específico para a Waveshare ESP32-S3-Touch-AMOLED-1.75C. O guia upstream descreve voice notes, respostas exibidas como captions e reproduzidas pelo alto-falante, além de controles de tela e volume. Nesta integração, esses recursos ainda precisam ser validados fisicamente.
 
-## Perfis de voz
+## Voice notes (perfil padrão)
+- Segurar o botão superior grava; soltar envia a mensagem.
+- O SDK da placa descreve resposta textual na tela e resposta de áudio pelo alto-falante.
+- Swipe entre tela principal, última resposta e configurações; controle de volume por gesto no avatar.
+- Este comportamento é documentado upstream; a integração local ainda não foi testada na placa.
 
-### Voice notes (perfil padrão)
-- Pressionar e segurar grava uma mensagem; soltar envia.
-- Resposta textual pode aparecer como legenda.
-- O modo de nota de voz não é conversa contínua.
-- A reprodução de resposta nesse caminho pode exigir integração TTS, conforme o fluxo upstream.
-
-### Realtime voice (experimental)
-- Um toque inicia a chamada e outro encerra.
-- Pressionar e segurar mantém o comportamento de voice note.
+## Realtime voice (experimental)
 - O perfil experimental está em `firmware/sdkconfig.pip-realtime`.
+- O fluxo usa chamadas em tempo real, com toque para iniciar/encerrar e push-to-talk conforme o SDK.
 - A compilação deste perfil passou na CI, mas o funcionamento depende do serviço/VM e da conta.
-- A Waveshare 1.75C não tem AEC de hardware confirmada neste projeto; o caminho previsto é half-duplex, alternando microfone e alto-falante.
+- A Waveshare 1.75C não tem AEC de hardware confirmada neste projeto; a configuração prevê half-duplex, alternando microfone e alto-falante.
 
-## Estado de integração
-Os hooks de transcrição e resposta estão ligados à ponte de personalidade e limitados a uma ocorrência por turno. O modo speaking altera a expressão visual, sem pontuação adicional. Os perfis padrão e realtime voice já foram compilados em CI. Ainda não foram testados em dispositivo real nem com conta/VM.
+## Estado da integração
+Hooks de transcrição e resposta estão conectados à ponte de personalidade, limitados a uma ocorrência por turno. O estado speaking altera apenas a expressão visual. Os perfis padrão e realtime voice já foram compilados em CI. Não houve teste em dispositivo real nem validação de conta/VM.
 
 ## Token de dispositivo
-O build alerta que `CONFIG_GADGET_SDK_TOKEN` não está configurado. O token deve ser gerado/obtido pelo fluxo oficial em [gadget.muse.ai](https://gadget.muse.ai/) (verifique o endereço oficial vigente antes de autenticar) e fornecido somente localmente ao build. Nunca comitar token, segredo, arquivo de configuração pessoal ou credencial em Git.
+O build alerta que `CONFIG_GADGET_SDK_TOKEN` não está configurado. O token deve ser obtido pelo fluxo oficial do Muse e fornecido somente localmente ao build. Nunca comitar tokens, segredos, arquivos de configuração pessoais ou credenciais em Git.
 
 ## Próximas validações
-1. Configurar token localmente, sem versioná-lo.
+1. Configurar token local, sem versioná-lo.
 2. Confirmar pareamento e sessão com serviço/VM.
-3. Testar voice note e realtime voice separadamente.
-4. Confirmar captions, resposta de voz, transcrição e troca de modos.
-5. Verificar half-duplex e comportamento de botão/toque.
-6. Depois da chegada da placa, validar áudio e microfone em hardware.
+3. Testar voice note e captions; confirmar áudio de resposta.
+4. Testar realtime voice, se a conta/VM permitir.
+5. Confirmar interrupções, transições de modo e comportamento half-duplex.
+6. Quando houver placa, validar áudio, microfone, controles por toque e qualidade de chamada.
 
-**Build verde significa que o código compila. Não comprova conexão, conversa, qualidade de áudio ou funcionamento físico.**
+**Build verde significa que o código compila. Não comprova conexão, sessão, qualidade de áudio ou funcionamento físico.**
