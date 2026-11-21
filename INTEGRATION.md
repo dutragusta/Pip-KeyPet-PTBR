@@ -20,7 +20,9 @@ O firmware não copia o entry point do Pip e não inicializa periféricos duplic
 O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalidade aos pontos existentes do Muse:
 
 - `MUSE_MODE_LISTENING`: altera a expressão visual de escuta, sem disparar um evento de Tamagotchi (gravar voz não deve ser confundido com conquistar um novo recorde);
-- mudança para `MUSE_MODE_SPEAKING`: evento de interação/companhia (`PIP_SEEN`);
+- primeira transcrição válida da fala do usuário em cada turno: evento `PIP_SEEN`, processado uma única vez mesmo que a transcrição parcial seja atualizada várias vezes;
+- primeira resposta textual do Muse em cada turno: evento de carinho leve (`PIP_STROKE`), também limitado a uma vez por conversa;
+- `MUSE_MODE_SPEAKING` controla apenas a expressão visual; não concede pontos extras, evitando duplicar a interação quando o áudio começa;
 - mudança para `MUSE_MODE_ERROR`: evento de susto;
 - toque no rosto do avatar: evento de carinho;
 - levantar o dispositivo, quando o recurso de lift-wake do Muse estiver habilitado: evento `PIP_WAKE` para acordar o Tamagotchi;
@@ -37,7 +39,7 @@ O adaptador usa um namespace NVS próprio (pip_pet), separado das configuraçõe
 - Pip original: firmware baseado em ESP-IDF 5.5.
 - Muse SDK fixado: ESP-IDF 6.0.3.
 - O overlay altera somente a cópia de trabalho do submódulo Muse, sem reescrever commits upstream.
-- A CI verifica os patches e executa testes portáteis do motor de personalidade.
-- Ainda falta compilar o firmware completo com ESP-IDF 6.0.3 e validar a integração no hardware.
+- A CI verifica os patches, executa testes portáteis do motor de personalidade e compila o firmware com ESP-IDF 6.0.3. As alterações mais recentes ainda aguardam os novos resultados da CI.
+- A validação da integração no hardware continua pendente.
 
 **Este projeto ainda não é um firmware pronto para gravação.** O build aprovado é uma validação de compilação; não comprova áudio, tela, touch, sensor ou persistência em uma placa física.
