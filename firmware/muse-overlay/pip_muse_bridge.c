@@ -163,6 +163,19 @@ void pip_muse_bridge_on_lift(void)
     xSemaphoreGive(s_lock);
 }
 
+void pip_muse_bridge_on_shake(void)
+{
+    if (!s_lock) return;
+    xSemaphoreTake(s_lock, portMAX_DELAY);
+    time_t now = time(NULL);
+    if (ensure_pet_locked(now)) {
+        (void)pip_personality_event(&s_pet, PIP_PERSONALITY_SHAKE, (int64_t)now);
+        s_last_tick = now;
+        save_locked();
+    }
+    xSemaphoreGive(s_lock);
+}
+
 bool pip_muse_bridge_status(pip_personality_status_t *out)
 {
     if (!out || !s_lock) return false;
