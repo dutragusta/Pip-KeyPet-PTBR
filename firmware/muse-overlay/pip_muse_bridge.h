@@ -11,6 +11,7 @@ extern "C" {
 void pip_muse_bridge_init(void);
 void pip_muse_bridge_on_mode(muse_mode_t mode);
 void pip_muse_bridge_on_touch(void);
+void pip_muse_bridge_on_lift(void);
 void pip_muse_bridge_tick(void);
 bool pip_muse_bridge_status(pip_personality_status_t *out);
 
