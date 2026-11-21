@@ -23,6 +23,7 @@ O adaptador `firmware/muse-overlay/pip_muse_bridge.c` liga o motor de personalid
 - mudança para `MUSE_MODE_SPEAKING`: evento de interação/companhia;
 - mudança para `MUSE_MODE_ERROR`: evento de susto;
 - toque no rosto do avatar: evento de carinho;
+- levantar o dispositivo, quando o recurso de lift-wake do Muse estiver habilitado: evento `PIP_WAKE` para acordar o Tamagotchi;
 - humor, valência, energia e sono do Pip influenciam o sorriso, o cansaço e as pálpebras do avatar;
 - consulta do estado visual: atualiza as necessidades no máximo uma vez por minuto.
 
