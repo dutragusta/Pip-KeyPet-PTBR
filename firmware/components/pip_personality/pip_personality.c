@@ -61,6 +61,7 @@ bool pip_personality_get_status(pip_personality_t *p, pip_personality_status_t *
     out->valence = pet_valence(&p->state);
     out->asleep = p->state.asleep;
     out->mood = pip_personality_mood(p);
+    out->reaction_mood = -1;
     out->hour = pet_hour(p->state.last, p->timezone_minutes);
     return true;
 }
