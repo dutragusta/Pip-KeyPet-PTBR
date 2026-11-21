@@ -48,6 +48,7 @@ O Muse SDK já possui suporte para esta família de placa. A integração será 
 - [x] Referências visuais do personagem adicionadas.
 - [x] Adaptador inicial do renderizador de olhos do Pip para o avatar customizado do Muse (128 × 128).
 - [ ] Integrar todas as animações e expressões do Pip ao LVGL.
+- [x] Ligar o evento de levantar o dispositivo (lift-wake do Muse) ao evento `PIP_WAKE` do Tamagotchi.
 - [ ] Integrar os eventos de voz e IA à personalidade.
 - [ ] Validar em CI o perfil experimental de chamadas de voz em tempo real.
 - [x] Resolver a compatibilidade de compilação entre o Pip (ESP-IDF 5.5) e o Muse (ESP-IDF 6.0.3) no perfil padrão.
