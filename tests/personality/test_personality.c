@@ -36,6 +36,9 @@ int main(void)
     assert(!pip.state.asleep);
 
     /* A detected shake nudges fun up and increases annoyance, as in upstream Pip. */
+    /* Isolate the shake effect from the earlier play event, which fills fun to 100%. */
+    pip.state.fun = 0.50f;
+    pip.state.annoy = 0.0f;
     float fun_before_shake = pip.state.fun;
     (void)pip_personality_event(&pip, PIP_PERSONALITY_SHAKE, start + 4);
     assert(pip.state.fun > fun_before_shake);
