@@ -1,0 +1,6 @@
+[submodule "vendor/muse-gadget-sdk"]
+	path = vendor/muse-gadget-sdk
+	url = https://github.com/facebookincubator/muse-gadget-sdk.git
+[submodule "vendor/pip-keypet"]
+	path = vendor/pip-keypet
+	url = https://github.com/NovikovVisuals/Pip-KeyPet.git
