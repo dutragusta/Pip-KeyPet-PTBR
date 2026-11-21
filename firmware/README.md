@@ -17,11 +17,11 @@ Este diretório reúne os componentes próprios da integração. O SDK da Muse c
 | Driver da placa | Disponível no SDK Muse |
 | Transporte de voz / sessão Muse | Disponível no SDK Muse |
 | Núcleo de necessidades do Tamagotchi | Preparado como componente reutilizável |
-| Renderizador dos olhos do Pip | Ainda precisa ser integrado à tela LVGL do Muse |
-| Navegação e aplicativos Pip | Ainda precisam ser portados |
-| Eventos de voz Muse → reações Pip | Próxima etapa |
+| Renderizador dos olhos do Pip | Overlay de avatar compilado com o renderizador original do Pip |
+| Navegação e aplicativos Pip | Pendentes: próximo bloco de trabalho |
+| Eventos de conversa Muse → reações Pip | Hooks para transcrição/resposta integrados e compilados |
 | BLE do iPhone + BLE Muse | Requer desenho de coexistência; não iniciar hosts independentes |
-| Build integrado | Ainda não configurado nem validado |
+| Build integrado | CI passou nos perfis normal e voz em tempo real; sem teste físico |
 
 ## Organização
 
@@ -31,10 +31,10 @@ Este diretório reúne os componentes próprios da integração. O SDK da Muse c
 
 ## Próxima implementação
 
-1. Conectar este componente ao projeto ESP-IDF da Muse por meio de `EXTRA_COMPONENT_DIRS` ou overlay CMake, sem editar o submódulo upstream.
-2. Criar o adaptador LVGL do rosto do Pip usando o display já inicializado pelo Muse.
-3. Portar o loop de atualização e a persistência do pet.
-4. Mapear os estados da sessão de voz para expressões do Pip.
-5. Portar shell/apps por grupos, evitando inicialização duplicada de tela, touch, áudio, energia ou Bluetooth.
+1. Portar o conjunto de aplicativos e interações do Pip, preservando o loop de renderização e o controle de hardware do Muse.
+2. Definir uma camada de navegação Tamagotchi que não substitua nem duplique a UI de configuração do Muse.
+3. Acrescentar interações de pet (feed/play/poke) com eventos de toque e controles da UI, mantendo NVS persistente.
+4. Refinar o feedback de conversa com eventos de transcrição e resposta, sem inferir emoções da IA sem uma API explícita.
+5. Validar sensor, toque, áudio, tela, relógio e persistência quando houver placa física.
 
 **Este diretório é uma base de desenvolvimento, não um firmware pronto para flash.**
