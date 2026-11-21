@@ -4,8 +4,9 @@ get_filename_component(PIP_UI_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../vendor/pip
 
 idf_component_register(
     SRCS
+        "pip_personality.c"
         "${PIP_UI_DIR}/pet.c"
-        "${PIP_UI_DIR}/moods.c"
     INCLUDE_DIRS
+        "include"
         "${PIP_UI_DIR}"
 )
