@@ -57,6 +57,7 @@ O site é publicado automaticamente pelo GitHub Actions sempre que há alteraç�
 
 ## Créditos e licença
 
+Esta alteração no README foi feita com assistência do ChatGPT/Codex.
 Este projeto é uma tradução/adaptação da interface do [Pip-KeyPet, de NovikovVisuals](https://github.com/NovikovVisuals/Pip-KeyPet).
 
 O projeto original informa ser distribuído sob a licença **MIT**. Consulte o repositório original e seus avisos de licença para os termos aplicáveis ao código e aos componentes de terceiros. Esta adaptação não reivindica a autoria do projeto original.
